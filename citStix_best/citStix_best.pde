@@ -27,7 +27,7 @@ void setup() {
   
   video = new Capture(this, 640, 480);
   video.start();
-  
+  //Steve added his stink on this line as a test..
   //  If you get error "A library used by this sketch is not installed properly."
   //  then load the line below.
   // System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
