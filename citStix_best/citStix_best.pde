@@ -24,8 +24,10 @@ Mat gbMat; // the empty matrix to hold the result of the hsb filter (inRangeGB)
 void setup() {
   
   size(800, 480, P2D);
+  String[] cameras = Capture.list();
+  printArray(cameras);
   
-  video = new Capture(this, 640, 480);
+  video = new Capture(this, 1920,1080,"C922 Pro Stream Webcam",30);
   video.start();
   //Steve added his stink on this line as a test..
   //  If you get error "A library used by this sketch is not installed properly."
