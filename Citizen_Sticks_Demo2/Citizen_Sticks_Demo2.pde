@@ -119,6 +119,14 @@ void draw() {
  //opencv.dilate();
  //opencv.erode();
  
+  /* sd -- template for object identifier
+  
+    ObjID btoV = new ObjID(gbMatRed,gbMatGreen,gbMatBlue,rangeW,rangeH);
+       redVectors = btoV.getRedVectorObjs();
+  
+  */
+  
+
 
   
   fill(255);
