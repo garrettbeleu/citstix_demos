@@ -22,6 +22,7 @@ ControlP5 cp5;
 Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
 Range redRangeHue2, redRangeSat2, redRangeVal2;
 
+//steve stink
 int rHueMin = 0;
 int rHueMax = 10;
 int rSatMin = 100;
