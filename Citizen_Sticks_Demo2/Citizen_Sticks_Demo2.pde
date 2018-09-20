@@ -4,12 +4,12 @@ import gab.opencv.*;
 import processing.video.*;
 
 //opencv modules
-import org.opencv.core.Scalar;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.CvType;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Size;
+import org.opencv.core.Scalar;
 
 //java list and array modules
 import java.util.List;
@@ -21,8 +21,8 @@ import controlP5.*;
 ControlP5 cp5;
 Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
 Range redRangeHue2, redRangeSat2, redRangeVal2;
+Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
 
-//steve stink
 int rHueMin = 0;
 int rHueMax = 10;
 int rSatMin = 100;
@@ -44,24 +44,24 @@ int bSatMax = 255;
 int bValMin = 100;
 int bValMax = 255;
 
-Capture video;
-OpenCV opencv;
 
 PImage src, redFilteredImage, greenFilteredImage, blueFilteredImage, rgbFilteredImage;
 color c; //color at mouseX/Y
 int hue; //color c mapped to hue range 0-179 
 color currentR,currentG,currentB = color(0,0,0);
 
+OpenCV opencv;
 Mat gbMatRed, gbMatGreen, gbMatBlue, gbMatRGB;
 
 // !.!.!.!.!.!.!.! note on opencv_processing lib Github says to use Processing IDE in 64bit mode
 // !.!.!.!.!.!.!.! Processing seems to revert to 32bit mode everytime it is opened :(
 
-// true for Logitech webcam - false for built in webcam
-boolean logitech = true;
+//Capture video; //uncomment for webcam
+boolean logitech = true; // true for Logitech webcam - false for built in webcam
+Movie video; //comment for webcam
+boolean isMovie = true;
 
 boolean guiVisibility = true;
-//boolean red2Toggle = false;
 
 char whichVideo = '`';
 
@@ -73,17 +73,22 @@ void setup() {
   
   //String[] cameras = Capture.list();
   //printArray(cameras);
-  //  "name=C922 Pro Stream Webcam #2,size=1920x1080,fps=30"
-  if(logitech==true) {
-    //rescale erything for 1920 by 1080?
-    video = new Capture(this, 1920, 1080, "C922 Pro Stream Webcam #3", 30);
-  } else {
-    video = new Capture(this, 1280, 720, "FaceTime HD Camera", 30);
-  }
-  video.start();
+  //if(logitech==true && isMovie!=true) {
+  //  video = new Capture(this, 1920, 1080, "C922 Pro Stream Webcam #3", 30); // "#3" changes depending on usb port?
+  //  video.start();
+  //} else {
+  //  video = new Capture(this, 1280, 720, "FaceTime HD Camera", 30);
+  //  video.start();
+  //}
   
-  //  If you get error "A library used by this sketch is not installed properly."
-  //  then load the line below.
+  if (isMovie) {
+    video = new Movie(this, "demo1Edit.mp4"); 
+    video.loop();
+    video.read(); //needed so that video.width&height !=empty for the cv object
+  }
+   
+  //    If you get error "A library used by this sketch is not installed properly."
+  //    then load the line below.
   // System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
   
   opencv = new OpenCV(this, video.width, video.height);
@@ -103,31 +108,13 @@ void draw() {
     video.read();
   }
 
-  opencv.loadImage(video); // ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! look into this, might be slow????
+  opencv.loadImage(video); // ! ! ! ! ! ! ! ! look into this, might be slow????
   opencv.useColor(HSB); // set cv colorspace to HSB for HSB filtering
   
   // params* (input matrix, hue-low, hue-high, sat-low, sat-high, value-low, value-high, output matrix)
   inRangeGB( opencv.matHSV, rHueMin,rHueMax, rSatMin,rSatMax, rValMin,rValMax, gbMatRed );
   inRangeGB( opencv.matHSV, gHueMin,gHueMax, gSatMin,gSatMax, gValMin,gValMax, gbMatGreen );
   inRangeGB( opencv.matHSV, bHueMin,bHueMax, bSatMin,bSatMax, bValMin,bValMax, gbMatBlue );
- 
- // _ _ _ - - - these are some functions that might be helpful
- // temp note * * * * *
- // * * * * dilation followed by erosion has different result (effect) that erosion followed by dilation
- // https://stackoverflow.com/questions/30369031/remove-spurious-small-islands-of-noise-in-an-image-python-opencv
- //opencv.blur(8);
- //opencv.dilate();
- //opencv.erode();
- 
-  /* sd -- template for object identifier
-  
-    ObjID btoV = new ObjID(gbMatRed,gbMatGreen,gbMatBlue,rangeW,rangeH);
-       redVectors = btoV.getRedVectorObjs();
-  
-  */
-  
-
-
   
   fill(255);
   //drawing videos
@@ -136,28 +123,16 @@ void draw() {
       opencv.useColor(); // set cv colorspace to RGB, needed for next line
       src = opencv.getSnapshot(); // save RGB source frame as PImage
       image(src, 0, 0);
-      text("video is: SOURCE", 10, height-320);
+      text("video: SRC", 10, height-320);
       break;
     case '1':
-      redFilteredImage = opencv.getSnapshot(gbMatRed);
-      image(redFilteredImage,0,0);
-      text("video: RED FILTERED", 10, height-320);
-      break;
-    case '2':
-      greenFilteredImage = opencv.getSnapshot(gbMatGreen);
-      image(greenFilteredImage,0,0);
-      text("video: GREEN FILTERED", 10, height-320);
-      break;
-    case '3':
-      blueFilteredImage = opencv.getSnapshot(gbMatBlue);
-      image(blueFilteredImage,0,0);
-      text("video: BLUE FILTERED", 10, height-320);
-      break;
-    case '4':
       // remember BGR is opencv order
       List<Mat> listMat = Arrays.asList(gbMatBlue,gbMatGreen,gbMatRed);
       Core.merge(listMat, gbMatRGB);
       
+      // POST-PROCESS the gbMatRGB matrix, could also try preprocessing the opencv object (src video) instead
+      // * * * * dilation followed by erosion has different results that erosion followed by dilation
+      // https://stackoverflow.com/questions/30369031/remove-spurious-small-islands-of-noise-in-an-image-python-opencv
       if( cp5.getController("morphTog").getValue()==1.0 ) {
         // dilate then erode = closing operation
         // erode then dilate = opening operation
@@ -168,35 +143,79 @@ void draw() {
         Mat kernel = Imgproc.getStructuringElement( Imgproc.MORPH_ELLIPSE, new Size(6,6));
         Imgproc.morphologyEx(gbMatRGB,gbMatRGB, Imgproc.MORPH_CLOSE, kernel ); 
         Imgproc.morphologyEx(gbMatRGB,gbMatRGB, Imgproc.MORPH_OPEN, kernel );      
-        //MORPH_ TOPHAT,BLACKHAT,GRADIENT are not useful here
+        //MORPH_TOPHAT,BLACKHAT,GRADIENT are not useful here
         
         // params- ( src, dst, size of blur(x,y) , deviation)
-        //Imgproc.GaussianBlur(gbMatRGB, gbMatRGB, new Size(9,9), 0);
+        //Imgproc.GaussianBlur(gbMatRGB, gbMatRGB, new Size(9,9), 0); //this seems slow
        }
-      
+       
       rgbFilteredImage = opencv.getSnapshot(gbMatRGB);
       image(rgbFilteredImage,0,0);
       text("video: R&G&B", 10, height-320);
       break;
-    case '0':
-      //display no video
+    case '2':
+      redFilteredImage = opencv.getSnapshot(gbMatRed);
+      image(redFilteredImage,0,0);
+      text("video: RED FILTERED", 10, height-320);
+      break;
+    case '3':
+      greenFilteredImage = opencv.getSnapshot(gbMatGreen);
+      image(greenFilteredImage,0,0);
+      text("video: GREEN FILTERED", 10, height-320);
+      break;
+    case '4':
+      blueFilteredImage = opencv.getSnapshot(gbMatBlue);
+      image(blueFilteredImage,0,0);
+      text("video: BLUE FILTERED", 10, height-320);
+      break;
+    case '0': //display no video
       break;
     default:
       break;
   }
 
+  //view frameRate
+  text(frameRate,10,25);
+  // NOTES on framerate - even w/ 1080p prerecorded video, framerate is still ~10-12fps, so that is not a webcam issue, but opencv issue
+  
   if(guiVisibility) {
-    //view frameRate
-    text(frameRate,10,25);
     text("hold key(R||G||B)+click in \nsrc video to select hue",10, height-295);
+    text("HoughCircles params",290,height-70);
     //current color (hue) that is selected - center value for hue-range filter
+    strokeWeight(1);
+    stroke(255);
+    
     fill(currentR);
     rect(10,height-270,28,28);
     fill(currentG);
     rect(10,height-180,28,28);
     fill(currentB);
     rect(10,height-90,28,28);
-  } 
+  }
+  
+  //circle detect green matrix
+  Mat circlesGreen = new Mat();
+  // could do some image processing here - blur, erode, dilate idk
+  Imgproc.HoughCircles(gbMatGreen, circlesGreen, Imgproc.CV_HOUGH_GRADIENT, 
+                       dp.getValue() ,minDist.getValue(), 
+                       cannyHigh.getValue(), cannyLow.getValue(),
+                       int(minSize.getValue()),int(maxSize.getValue()) );
+  strokeWeight(5);
+  stroke(255,0,255);
+  noFill();
+  if (circlesGreen.rows()>0) {
+    //println(circlesGreen.dump());
+    for (int i=0; i<circlesGreen.cols(); i++) {
+      double [] v = circlesGreen.get(0, i);
+      float x = (float)v[0];
+      float y = (float)v[1];
+      float r = (float)v[2];
+      ellipse(x, y, r*2, r*2);
+    }
+  }
+  // does not seem to impact speed, but saw someone else doing this
+  //gbMatGreen.release();
+  //circlesGreen.release();
   
 }
 
@@ -312,10 +331,10 @@ void keyPressed() {
  
  //switch change state
  if (key=='`') whichVideo='`'; // src video
- if (key=='1') whichVideo='1'; // red filtered
- if (key=='2') whichVideo='2'; // green filtered
- if (key=='3') whichVideo='3'; // blue filtered
- if (key=='4') whichVideo='4'; // R&G&B filtered
+ if (key=='1') whichVideo='1'; // R&G&B filtered
+ if (key=='2') whichVideo='2'; // red filtered
+ if (key=='3') whichVideo='3'; // green filtered
+ if (key=='4') whichVideo='4'; // blue filtered 
  if (key=='0') whichVideo='0'; // no video (hide video)
   
 }
@@ -590,7 +609,86 @@ void loadGUI() {
        .setMode(ControlP5.SWITCH)
        .setColorActive(color(255,15,80))
        .setColorBackground(color(255));
-       //.setCaptionLabel("Red 2 Toggle");
+
+// Circle detect numberboxes
+  dp = cp5.addNumberbox("dp")
+   .setPosition(290,height-60)
+   .setSize(45,20)
+   .setRange(1,6)
+   .setValue(2)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.1)
+   .setDirection(Controller.HORIZONTAL)
+   .setCaptionLabel("Rez");
+     dp.getCaptionLabel().toUpperCase(false);
+     
+  minDist = cp5.addNumberbox("minDist")
+   .setPosition(350,height-60)
+   .setSize(45,20)
+   .setRange(1,500)
+   .setValue(20)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.2)
+   .setDirection(Controller.HORIZONTAL);
+     minDist.getCaptionLabel().toUpperCase(false);
+
+ cannyHigh = cp5.addNumberbox("cannyHigh")
+   .setPosition(410,height-60)
+   .setSize(45,20)
+   .setRange(1,500)
+   .setValue(80)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.2)
+   .setDirection(Controller.HORIZONTAL);
+     cannyHigh.getCaptionLabel().toUpperCase(false);
+     
+  cannyLow = cp5.addNumberbox("cannyLow")
+   .setPosition(470,height-60)
+   .setSize(45,20)
+   .setRange(1,500)
+   .setValue(40)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.2)
+  .setDirection(Controller.HORIZONTAL);
+     cannyLow.getCaptionLabel().toUpperCase(false);
+     
+  minSize = cp5.addNumberbox("minSize")
+   .setPosition(530,height-60)
+   .setSize(45,20)
+   .setRange(1,500)
+   .setValue(5)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.2)
+   .setDirection(Controller.HORIZONTAL);
+     minSize.getCaptionLabel().toUpperCase(false);
+     
+  maxSize = cp5.addNumberbox("maxSize")
+   .setPosition(590,height-60)
+   .setSize(45,20)
+   .setRange(50,500)
+   .setValue(80)
+   .setColorForeground(color(255,0,0))
+   .setColorActive(color(255,0,0,125))
+   .setColorBackground(color(255,255,255))
+   .setColorValueLabel(255)
+   .setScrollSensitivity(0.2)
+   .setDirection(Controller.HORIZONTAL);
+     maxSize.getCaptionLabel().toUpperCase(false);
 }
  
   
