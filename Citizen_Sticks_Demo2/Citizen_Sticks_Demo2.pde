@@ -22,27 +22,23 @@ ControlP5 cp5;
 Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
 Range redRangeHue2, redRangeSat2, redRangeVal2;
 Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
+Toggle red2Toggle;
 
-int rHueMin = 0;
-int rHueMax = 10;
-int rSatMin = 100;
-int rSatMax = 255;
-int rValMin = 100;
-int rValMax = 255;
+int rHueMin = 0;   int rHueMax = 10;
+int rSatMin = 75; int rSatMax = 255;
+int rValMin = 75; int rValMax = 255;
 
-int gHueMin = 35;
-int gHueMax = 92;
-int gSatMin = 100;
-int gSatMax = 255;
-int gValMin = 100;
-int gValMax = 255;
+int gHueMin = 35;  int gHueMax = 85;
+int gSatMin = 75; int gSatMax = 255;
+int gValMin = 75; int gValMax = 255;
 
-int bHueMin = 100;
-int bHueMax = 135;
-int bSatMin = 100;
-int bSatMax = 255;
-int bValMin = 100;
-int bValMax = 255;
+int bHueMin = 100; int bHueMax = 135;
+int bSatMin = 75; int bSatMax = 255;
+int bValMin = 75; int bValMax = 255;
+
+int r2HueMin = 160; int r2HueMax = 179;
+int r2SatMin = 75; int r2SatMax = 255;
+int r2ValMin = 75; int r2ValMax = 255;
 
 
 PImage src, redFilteredImage, greenFilteredImage, blueFilteredImage, rgbFilteredImage;
@@ -51,7 +47,8 @@ int hue; //color c mapped to hue range 0-179
 color currentR,currentG,currentB = color(0,0,0);
 
 OpenCV opencv;
-Mat gbMatRed, gbMatGreen, gbMatBlue, gbMatRGB;
+Mat gbMatRed, gbMatRed2, gbMatAddedRed, gbMatGreen, gbMatBlue, gbMatRGB;
+double[][] redData, blueData, greenData;
 
 // !.!.!.!.!.!.!.! note on opencv_processing lib Github says to use Processing IDE in 64bit mode
 // !.!.!.!.!.!.!.! Processing seems to revert to 32bit mode everytime it is opened :(
@@ -65,7 +62,9 @@ boolean guiVisibility = true;
 
 char whichVideo = '`';
 
+
 void setup() {
+  //fullScreen();
   size(1500, 900);
   textSize(16);
   textLeading(16);
@@ -93,6 +92,8 @@ void setup() {
   
   opencv = new OpenCV(this, video.width, video.height);
   gbMatRed = new Mat(video.width, video.height, CvType.CV_8UC1);
+  gbMatRed2 = new Mat(video.width, video.height, CvType.CV_8UC1); //red hues 150-179
+  //gbMatAddedRed = new Mat(video.width, video.height, CvType.CV_8UC1);
   gbMatGreen = new Mat(video.width, video.height, CvType.CV_8UC1);
   gbMatBlue = new Mat(video.width, video.height, CvType.CV_8UC1);
   gbMatRGB = new Mat(video.width, video.height, CvType.CV_8UC3);
@@ -115,6 +116,14 @@ void draw() {
   inRangeGB( opencv.matHSV, rHueMin,rHueMax, rSatMin,rSatMax, rValMin,rValMax, gbMatRed );
   inRangeGB( opencv.matHSV, gHueMin,gHueMax, gSatMin,gSatMax, gValMin,gValMax, gbMatGreen );
   inRangeGB( opencv.matHSV, bHueMin,bHueMax, bSatMin,bSatMax, bValMin,bValMax, gbMatBlue );
+  
+  if (red2Toggle.getValue()==1.0) {
+    //println("hue:"+r2HueMin+","+r2HueMax+" Sat:"+r2SatMin+","+r2SatMax+" Val:"+r2ValMin+","+r2ValMax );
+    inRangeGB( opencv.matHSV, r2HueMin,r2HueMax, r2SatMin,r2SatMax, r2ValMin,r2ValMax, gbMatRed2 );
+    //add the 2 red filtered matrices into one (gbMatRed and gbMatRed2)
+    // place results back into gbMatRed so that code below does not need more if statements
+    Core.addWeighted(gbMatRed, 1, gbMatRed2, 1, 0, gbMatRed );
+  }
   
   fill(255);
   //drawing videos
@@ -193,6 +202,42 @@ void draw() {
     rect(10,height-90,28,28);
   }
   
+  //circle detect red matrix
+  Mat circlesRed = new Mat();
+  // could do some image processing here - blur, erode, dilate idk
+  Imgproc.HoughCircles(gbMatRed, circlesRed, Imgproc.CV_HOUGH_GRADIENT, 
+                       dp.getValue() ,minDist.getValue(), 
+                       cannyHigh.getValue(), cannyLow.getValue(),
+                       int(minSize.getValue()),int(maxSize.getValue()) );
+  strokeWeight(3);
+  stroke(0,255,255);
+  noFill();
+  if (circlesRed.rows()>0) {
+    //println("dump Red= "+circlesRed.dump() +"\n");
+    ////this is the ONE :)
+    //double[][] redData = new double[circlesRed.cols()][circlesRed.rows()];
+    //for(int i=0; i<circlesRed.cols(); i++) { 
+    //  //println(circlesRed.get(0,i)); 
+    //    redData[i] = circlesRed.get(0,i);
+    //};
+    //print2D(redData);
+    
+    // drawing ellipses
+    for (int i=0; i<circlesRed.cols(); i++) {
+      double [] v = circlesRed.get(0, i);
+      float x = (float)v[0];
+      float y = (float)v[1];
+      float r = (float)v[2];
+      ellipse(x, y, r*2, r*2);
+    }
+  }
+  //println( circlesRed.cols() ); // number of (x,y,radius/2) elements
+  //println(circlesRed.type()); type=21 CV_32F 3channel
+  
+  // does not seem to impact speed, but saw someone else doing this
+  gbMatRed.release();
+  circlesRed.release();
+  
   //circle detect green matrix
   Mat circlesGreen = new Mat();
   // could do some image processing here - blur, erode, dilate idk
@@ -200,11 +245,16 @@ void draw() {
                        dp.getValue() ,minDist.getValue(), 
                        cannyHigh.getValue(), cannyLow.getValue(),
                        int(minSize.getValue()),int(maxSize.getValue()) );
-  strokeWeight(5);
   stroke(255,0,255);
-  noFill();
   if (circlesGreen.rows()>0) {
-    //println(circlesGreen.dump());
+    //println("dump Green= "+circlesGreen.dump() +"\n");
+    //double[][] greenData = new double[circlesGreen.cols()][circlesGreen.rows()];
+    //for(int i=0; i<circlesGreen.cols(); i++) { 
+    //  //println(circlesGreen.get(0,i)); 
+    //    greenData[i] = circlesGreen.get(0,i);
+    //};
+    //print2D(greenData);
+
     for (int i=0; i<circlesGreen.cols(); i++) {
       double [] v = circlesGreen.get(0, i);
       float x = (float)v[0];
@@ -214,8 +264,43 @@ void draw() {
     }
   }
   // does not seem to impact speed, but saw someone else doing this
-  //gbMatGreen.release();
-  //circlesGreen.release();
+  gbMatGreen.release();
+  circlesGreen.release();
+  
+  //circle detect blue matrix
+  Mat circlesBlue = new Mat();
+  // could do some image processing here - blur, erode, dilate idk
+  Imgproc.HoughCircles(gbMatBlue, circlesBlue, Imgproc.CV_HOUGH_GRADIENT, 
+                       dp.getValue() ,minDist.getValue(), 
+                       cannyHigh.getValue(), cannyLow.getValue(),
+                       int(minSize.getValue()),int(maxSize.getValue()) );
+  stroke(255,255,0);
+  if (circlesBlue.rows()>0) {
+    println("dump Blue= "+circlesBlue.dump() +"\n");
+    //this is the ONE :)
+    double[][] blueData = new double[circlesBlue.cols()][circlesBlue.rows()];
+    for(int i=0; i<circlesBlue.cols(); i++) { 
+      //println(circlesBlue.get(0,i)); 
+        blueData[i] = circlesBlue.get(0,i);
+    };
+    print2D(blueData);
+    
+    for (int i=0; i<circlesBlue.cols(); i++) {
+      double [] v = circlesBlue.get(0, i);
+      float x = (float)v[0];
+      float y = (float)v[1];
+      float r = (float)v[2];
+      ellipse(x, y, r*2, r*2);
+    }
+  }
+  // does not seem to impact speed, but saw someone else doing this
+  gbMatBlue.release();
+  circlesBlue.release();
+  
+  gbMatRGB.release();
+  gbMatRed2.release();
+  opencv.matHSV.release();
+ 
   
 }
 
@@ -317,7 +402,7 @@ void mousePressed() {
 
 void keyPressed() {
  if (key=='p') {
-    //print("");   
+    println(red2Toggle.getValue());   
  }
  
  if (key=='v') {
@@ -395,6 +480,24 @@ void red2Toggle(boolean theFlag) {
   redRangeHue2.setVisible(theFlag);
   redRangeSat2.setVisible(theFlag);
   redRangeVal2.setVisible(theFlag);
+  if (theFlag) {
+    cp5.getController("red2Toggle").setColorActive(color(15,255,80));
+  }else{
+     cp5.getController("red2Toggle").setColorActive(color(255,15,80));
+  }
+}
+
+void redRangeHue2() {
+  r2HueMin = round(redRangeHue2.getLowValue());
+  r2HueMax = round(redRangeHue2.getHighValue());
+}
+void redRangeSat2() {
+  r2SatMin = round(redRangeSat2.getLowValue());
+  r2SatMax = round(redRangeSat2.getHighValue());
+}
+void redRangeVal2() {
+  r2ValMin = round(redRangeVal2.getLowValue());
+  r2ValMax = round(redRangeVal2.getHighValue());
 }
 
 void morphTog(boolean theFlag) {
@@ -544,14 +647,14 @@ void loadGUI() {
        .setColorValueLabel(255)
        .setCaptionLabel("Val");
              
-  cp5.addToggle("red2Toggle")
+  red2Toggle = cp5.addToggle("red2Toggle")
        .setPosition(290,height-315)
        .setSize(50,20)
        .setBroadcast(false)
        .setValue(true)
        .setBroadcast(true)
        .setMode(ControlP5.SWITCH)
-       .setColorActive(color(255,15,80))
+       .setColorActive(color(15,255,80))
        .setColorBackground(color(255))
        .setCaptionLabel("Red 2 Toggle");
 
@@ -562,7 +665,7 @@ void loadGUI() {
        .setSize(200,20)
        .setHandleSize(10)
        .setRange(150,179)
-       .setRangeValues(170,179)
+       .setRangeValues(r2HueMin,r2HueMax)
        // after the initialization we turn broadcast back on again
        .setBroadcast(true)
        .setColorForeground(color(255,15,80))
@@ -577,7 +680,7 @@ void loadGUI() {
        .setSize(200,20)
        .setHandleSize(10)
        .setRange(0,255)
-       .setRangeValues(rSatMin,rSatMax)
+       .setRangeValues(r2SatMin,r2SatMax)
        // after the initialization we turn broadcast back on again
        .setBroadcast(true)
        .setColorForeground(color(255,15,80))
@@ -592,7 +695,7 @@ void loadGUI() {
        .setSize(200,20)
        .setHandleSize(10)
        .setRange(0,255)
-       .setRangeValues(rValMin,rValMax)
+       .setRangeValues(r2ValMin,r2ValMax)
        // after the initialization we turn broadcast back on again
        .setBroadcast(true)
        .setColorForeground(color(255,15,80))
@@ -629,7 +732,7 @@ void loadGUI() {
    .setPosition(350,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(20)
+   .setValue(35)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -655,7 +758,7 @@ void loadGUI() {
    .setPosition(470,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(40)
+   .setValue(30)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
