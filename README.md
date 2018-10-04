@@ -1,3 +1,3 @@
 # citstix_demos
 
-...or maybe it's just one demo right now.
+Citzen_Sticks_Demo2 was just updated - 10/3/18
