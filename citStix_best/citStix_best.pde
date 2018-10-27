@@ -18,7 +18,7 @@ PImage src, hsbFilteredImage;
 
 int hueRangeLow = 20;
 int hueRangeHigh = 35;
-
+//Sd comment test
 Mat gbMat; // the empty matrix to hold the result of the hsb filter (inRangeGB)
 
 void setup() {

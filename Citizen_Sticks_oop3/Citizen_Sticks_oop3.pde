@@ -23,8 +23,8 @@ GBCV gbcv;
 dataStorage dsRed, dsGreen, dsBlue;
 
 void setup() {
-  fullScreen();
-  //size(1500, 900);
+  //fullScreen();
+  size(1500, 900);
   textSize(16);
   textLeading(16);
   stroke(255);
@@ -48,7 +48,6 @@ void setup() {
   
   // // notes after test 2 update starting variables in gui tab
   
-  
   opencv = new OpenCV(this, video.width, video.height);
   gbcv = new GBCV();
   dsRed = new dataStorage();
@@ -64,8 +63,10 @@ void draw() {
     
   //Read last captured frame
   if (video.available()) {
+    println("go video");
+    
     video.read();
-  }
+
   
   opencv.loadImage(video);
   opencv.useColor(HSB); // set cv colorspace to HSB for filtering
@@ -101,7 +102,10 @@ void draw() {
   gbcv.drawCircles(dsBlue.data, gbcv.circlesBlue, color(0,0,255));
   
  // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
-
+  } else {
+    
+    println("NO video");
+  }
     
 }
 
