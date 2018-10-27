@@ -23,28 +23,31 @@ GBCV gbcv;
 dataStorage dsRed, dsGreen, dsBlue;
 
 void setup() {
-  //fullScreen();
-  size(1500, 900);
+  fullScreen();
+  //size(1500, 900);
   textSize(16);
   textLeading(16);
   stroke(255);
   
-  //String[] cameras = Capture.list();
-  //printArray(cameras);
-  //if(logitech==true && isMovie!=true) {
-  //  video = new Capture(this, 1920, 1080, "C922 Pro Stream Webcam #3", 30); // "#3" changes depending on usb port?
-  //  video.start();
-  //} else {
-  // // video = new Capture(this, 1280, 720, "FaceTime HD Camera", 30);
-  // video = new Capture(this, 1280,720, cameras[0]);
-  //  video.start();
+  String[] cameras = Capture.list();
+  printArray(cameras);
+  if(dslr==true && isMovie==false) {
+    video = new Capture(this, 1280, 720, cameras[15], 30);
+    video.start();
+  } else {
+   // video = new Capture(this, 1280, 720, "FaceTime HD Camera", 30);
+   video = new Capture(this, 1280,720, cameras[0]);
+    video.start();
+  }
+  
+  //if (isMovie) {
+  //  video = new Movie(this, "demo1Edit.mp4"); 
+  //  video.loop();
+  //  video.read(); //needed so that video.width&height !=empty for the cv object
   //}
   
-  if (isMovie) {
-    video = new Movie(this, "demo1Edit.mp4"); 
-    video.loop();
-    video.read(); //needed so that video.width&height !=empty for the cv object
-  }
+  // // notes after test 2 update starting variables in gui tab
+  
   
   opencv = new OpenCV(this, video.width, video.height);
   gbcv = new GBCV();
@@ -57,7 +60,7 @@ void setup() {
 }
 
 void draw() {
-  background(195);
+  background(0,0,25);
     
   //Read last captured frame
   if (video.available()) {
@@ -96,6 +99,9 @@ void draw() {
   
   gbcv.findCircles(gbcv.matBlue, gbcv.circlesBlue, dsBlue);
   gbcv.drawCircles(dsBlue.data, gbcv.circlesBlue, color(0,0,255));
+  
+ // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
+
     
 }
 

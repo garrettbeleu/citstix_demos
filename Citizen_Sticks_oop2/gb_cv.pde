@@ -31,7 +31,7 @@ class GBCV {
       opencv.useColor(); // set cv colorspace to RGB, needed for next line
       src = opencv.getSnapshot(); // save RGB source frame as PImage
       //image(src, 0, 0);
-      set(0,0,src); // this is faster if not resize, transormations are needed
+      set(0,0,src); // this is faster if no resize, transformations are needed
       break;
     case '1':
       // remember BGR is opencv order
@@ -103,6 +103,9 @@ class GBCV {
               theData.data[i][j] = (float)tempData[i][j];
             }
           }        
+      }else{
+        //empty but not null
+        theData.data = new float[0][0];
       }
     }
   
@@ -134,6 +137,11 @@ class GBCV {
           ellipse(inputArray[i][0],inputArray[i][1],inputArray[i][2]*2,inputArray[i][2]*2);
         }
       }
+    }
+    
+    int[] calculateTotals(float[][] r, float[][] g, float[][] b) {
+       int[] theTotal = {r.length,g.length,b.length};
+       return theTotal;
     }
   
 }

@@ -1,5 +1,6 @@
 
-// there were not for how to 
+// notes on how to "pass-by-reference"
+// the float[][] into GBCV object
 
 /*
 

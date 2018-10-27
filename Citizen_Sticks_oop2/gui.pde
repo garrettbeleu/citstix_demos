@@ -22,10 +22,10 @@ int bSatMin = 75; int bSatMax = 255;
 int bValMin = 75; int bValMax = 255;
 
 
-//Capture video; //uncomment for webcam
-boolean logitech = false; // true for Logitech webcam - false for built in webcam
-Movie video; //comment for webcam
-boolean isMovie = true;
+Capture video; //uncomment for webcam
+boolean dslr = true; // true for Logitech webcam - false for built in webcam
+//Movie video; //comment for webcam
+boolean isMovie = false;
 
 boolean guiVisibility = true;
 
