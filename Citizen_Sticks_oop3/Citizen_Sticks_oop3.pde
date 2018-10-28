@@ -17,7 +17,7 @@ import java.util.Arrays;
 //controlP5 Lib
 import controlP5.*;
 
-//Start Globals
+//Startup Globals
 // FS sets the screen to full
 // isMovie true goes for sample movie and false means camera.
 boolean fs = false;
@@ -28,13 +28,14 @@ boolean guiVisibility = true;
 
 //End
 
-//Main Objects
+//Main Objects 
 Movie mvideo; 
 Capture cvideo;
 Object fvideo;
 FrameData gframe; 
 OpenCV opencv;
 GBCV gbcv;
+gbDrawCircs gbcvis;
 
 dataStorage dsRed, dsGreen, dsBlue;
 
@@ -87,11 +88,10 @@ void videoStartUpManager() {
     gframe = new FrameData(cvideo.width, cvideo.height);
   }
 
-  
-
   // notes after test 2 update starting variables in gui tab
 
   gbcv = new GBCV();
+  gbcvis  = new gbDrawCircs();
   dsRed = new dataStorage();
   dsGreen = new dataStorage();
   dsBlue = new dataStorage();
@@ -100,14 +100,10 @@ void videoStartUpManager() {
 
 void draw() {
   background(0, 0, 25);
-
   
-    updateCV();
-    
-      
-    // speraton of the CV from the visuals.
+   // seperation of the CV from the visuals.
+    updateCV();  
     drawCurrentUI();
-
     // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
  
 }
@@ -124,7 +120,7 @@ void updateCV() {
    }   
       
    } else {
-   
+     //Read last captured frame
      if (cvideo.available()) {
         println("go c video");
         cvideo.read();
@@ -133,7 +129,6 @@ void updateCV() {
    
    }
      
-    
   opencv.useColor(HSB); // set cv colorspace to HSB for filtering
 
   // params* (input matrix, hue-low, hue-high, sat-low, sat-high, value-low, value-high, output matrix)
@@ -149,9 +144,7 @@ void updateCV() {
   // place results back into gbMatRed so that code below does not need more if statements
   Core.addWeighted(gbcv.matRed, 1, gbcv.matRed2, 1, 0, gbcv.matRed );
 
-  
   // } else {
-
   //  println("NO video");
   //}
 }
@@ -161,43 +154,15 @@ void updateCV() {
 void drawCurrentUI() {
 
   gbcv.drawVideo(whichVideo);
-
+ 
   guiText(color(255), guiVisibility, whichVideo);
-
-  strokeWeight(3);
-  noFill();
-
-  gbcv.findCircles(gbcv.matRed, gbcv.circlesRed, dsRed);
-  gbcv.drawCircles(dsRed.data, gbcv.circlesRed, color(255, 0, 0));
-
-  gbcv.findCircles(gbcv.matGreen, gbcv.circlesGreen, dsGreen);
-  gbcv.drawCircles(dsGreen.data, gbcv.circlesGreen, color(0, 255, 0));
-
-  gbcv.findCircles(gbcv.matBlue, gbcv.circlesBlue, dsBlue);
-  gbcv.drawCircles(dsBlue.data, gbcv.circlesBlue, color(0, 0, 255));
-}
-
-
-
-
-
-class  FrameData {
-  public int w;
-  public int h; 
-  FrameData(int lw, int lh) {
-    w = lw;
-    h  = lh;   
-  }
   
+  gbcvis.updateCircles();
+ 
 }
-
-
 
 
 void keyPressed() {
-
-
-
 
   if (key=='v') {
     guiVisibility = !guiVisibility;
@@ -215,11 +180,7 @@ void keyPressed() {
   if (key=='3') whichVideo='3'; // green filtered
   if (key=='4') whichVideo='4'; // blue filtered 
   if (key=='0') whichVideo='0'; // no video (hide video) 
-  if (key == 'f') {
-    fs = true;
-    settings();
-  }
-  //if (key == 'w') size(1500, 900);
+  
 }
 
 // - - - - print 2d array to compare values
