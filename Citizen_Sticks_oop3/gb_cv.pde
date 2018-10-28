@@ -10,11 +10,11 @@ class GBCV {
   Mat circlesRed, circlesGreen, circlesBlue;
   
   GBCV() {
-    matRed = new Mat(video.width, video.height, CvType.CV_8UC1); //red hues 0-10
-    matRed2 = new Mat(video.width, video.height, CvType.CV_8UC1); //red hues 150-179
-    matGreen = new Mat(video.width, video.height, CvType.CV_8UC1);
-    matBlue = new Mat(video.width, video.height, CvType.CV_8UC1);
-    matRGB = new Mat(video.width, video.height, CvType.CV_8UC3);
+    matRed = new Mat(gframe.w, gframe.h, CvType.CV_8UC1); //red hues 0-10
+    matRed2 = new Mat(gframe.w, gframe.h, CvType.CV_8UC1); //red hues 150-179
+    matGreen = new Mat(gframe.w, gframe.h, CvType.CV_8UC1);
+    matBlue = new Mat(gframe.w, gframe.h, CvType.CV_8UC1);
+    matRGB = new Mat(gframe.w, gframe.h, CvType.CV_8UC3);
     //
     circlesRed= new Mat();
     circlesGreen= new Mat();
