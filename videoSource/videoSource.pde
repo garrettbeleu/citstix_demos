@@ -45,8 +45,6 @@ void settings() {
 } 
 
 void setup() {
-  //fullScreen();
-  size(1280, 720);
   textSize(16);
   textLeading(16);
   stroke(255);

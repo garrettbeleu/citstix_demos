@@ -2,7 +2,6 @@ ControlP5 cp5;
 Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
 Range redRangeHue2, redRangeSat2, redRangeVal2;
 Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
-Toggle red2Toggle;
 
 //initial slider values
 int rHueMin = 0;   int rHueMax = 10;
@@ -20,8 +19,6 @@ int gValMin = 75; int gValMax = 255;
 int bHueMin = 100; int bHueMax = 135;
 int bSatMin = 75; int bSatMax = 255;
 int bValMin = 75; int bValMax = 255;
-
-
 
 
 //draw text depending upon the case and state
@@ -108,16 +105,6 @@ void blueRangeVal() {
 }
 
 //toggle gui visibilities and color
-void red2Toggle(boolean theFlag) {
-  redRangeHue2.setVisible(theFlag);
-  redRangeSat2.setVisible(theFlag);
-  redRangeVal2.setVisible(theFlag);
-  if (theFlag) {
-    cp5.getController("red2Toggle").setColorActive(color(15,255,80));
-  }else{
-     cp5.getController("red2Toggle").setColorActive(color(255,15,80));
-  }
-}
 void morphTog(boolean theFlag) {
   if (theFlag) {
     cp5.getController("morphTog").setColorActive(color(15,255,80));
@@ -265,17 +252,6 @@ void loadGUI() {
        .setColorValueLabel(255)
        .setCaptionLabel("Val");
              
-  red2Toggle = cp5.addToggle("red2Toggle")
-       .setPosition(290,height-315)
-       .setSize(50,20)
-       .setBroadcast(false)
-       .setValue(true)
-       .setBroadcast(true)
-       .setMode(ControlP5.SWITCH)
-       .setColorActive(color(15,255,80))
-       .setColorBackground(color(255))
-       .setCaptionLabel("Red 2 Toggle");
-
   redRangeHue2 = cp5.addRange("redRangeHue2")
        // disable broadcasting since setRange and setRangeValues will trigger an event
        .setBroadcast(false) 
@@ -349,8 +325,8 @@ void loadGUI() {
   minDist = cp5.addNumberbox("minDist")
    .setPosition(350,height-60)
    .setSize(45,20)
-   .setRange(1,500)
-   .setValue(35)
+   .setRange(1,100)
+   .setValue(30)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -363,7 +339,7 @@ void loadGUI() {
    .setPosition(410,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(80)
+   .setValue(50)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -376,7 +352,7 @@ void loadGUI() {
    .setPosition(470,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(30)
+   .setValue(19)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -401,8 +377,8 @@ void loadGUI() {
   maxSize = cp5.addNumberbox("maxSize")
    .setPosition(590,height-60)
    .setSize(45,20)
-   .setRange(50,500)
-   .setValue(80)
+   .setRange(5,100)
+   .setValue(50)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))

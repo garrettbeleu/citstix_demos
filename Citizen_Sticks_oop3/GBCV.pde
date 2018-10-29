@@ -1,9 +1,4 @@
-//last safe save point
 
-import java.util.Hashtable;
-import java.util.Map;
-
- 
 class GBCV {
   Mat matRed, matRed2, matGreen, matBlue, matRGB;
   PImage src, redFilteredImage, greenFilteredImage, blueFilteredImage, rgbFilteredImage;
@@ -28,10 +23,12 @@ class GBCV {
   void drawVideo(char theCase) {
     switch(theCase) {
     case '`':
-      opencv.useColor(); // set cv colorspace to RGB, needed for next line
-      src = opencv.getSnapshot(); // save RGB source frame as PImage
-      //image(src, 0, 0);
-      set(0,0,src); // this is faster if no resize, transformations are needed
+      if (inputVideo.isWebcam) {
+        image(inputVideo.webcam,0,0);
+        //set(0,0,inputVideo.webcam); // this is faster if no resize or transformations are needed
+      } else {
+        image(inputVideo.movie,0,0);
+      }
       break;
     case '1':
       // remember BGR is opencv order
@@ -79,12 +76,35 @@ class GBCV {
     }
   }
   
- 
-  
-}
+  void findCircles(Mat input, Mat output, dataStorage theData) {
+  Imgproc.HoughCircles(input, output, Imgproc.CV_HOUGH_GRADIENT, 
+                       dp.getValue() ,minDist.getValue(), 
+                       cannyHigh.getValue(), cannyLow.getValue(),
+                       int(minSize.getValue()),int(maxSize.getValue()) );
 
-//class to store circle detection data in (x,y,radius/2) format
-class dataStorage {
-  float[][] data;
-  dataStorage() {}
+    if (output.rows()>0) {
+      //println("dump= "+output.dump() +"\n");
+     
+      //place circlesRed matrix values into an array of the same datatype
+      double[][] tempData = new double[output.cols()][output.rows()];
+      for(int i=0; i<output.cols(); i++) {  
+        tempData[i] = output.get(0,i);
+        //println(output.get(0,i));
+      }
+      
+      // initialize the size of the float[][] array
+      theData.data = new float[tempData.length][3];
+        for(int i=0; i<tempData.length; i++) {
+          for(int j=0; j<tempData[i].length; j++) {
+            // cast the double[][] to a float[][]
+            theData.data[i][j] = (float)tempData[i][j];
+          }
+        }        
+    }else{
+      //empty but not null?
+      theData.data = new float[0][0];
+    }
+  }
+  
+  
 }
