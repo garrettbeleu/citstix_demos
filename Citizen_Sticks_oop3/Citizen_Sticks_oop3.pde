@@ -53,9 +53,11 @@ void setup() {
   textSize(16);
   textLeading(16);
   stroke(255);
+  
+  //frameRate(0.5);
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
-  inputVideo = new VideoSource(video,this,"demo1Edit.mp4");
+  inputVideo = new VideoSource(video,this,"test2.mp4");
   // //...camera input source
   //inputVideo = new VideoSource(cap, this, 1280, 720); 
   
@@ -105,12 +107,20 @@ void updateCV() {
 
 void drawCurrentUI() {
 
-  gbcv.drawVideo(whichVideo);
+  //gbcv.drawVideo(whichVideo);
  
-  guiText(color(255), guiVisibility, whichVideo);
+  //guiText(color(255), guiVisibility, whichVideo);
    
-  //vizPercent.pushToScreen(); // can't get this working right now
   connections.pushToScreen();
+  
+  // full mode
+  //vizPercent.pushToScreen(100,"full");
+  
+  // this one is cool, but the problem is that it uses the
+  // opacity screen wipe technique, therefore
+  // background() and anything reliant on it cannot also be used
+  vizPercent.pushToScreen(255,"stripes");
+ 
   tPanel.pushToScreen();
  
 }

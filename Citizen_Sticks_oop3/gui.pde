@@ -378,7 +378,7 @@ void loadGUI() {
    .setPosition(590,height-60)
    .setSize(45,20)
    .setRange(5,100)
-   .setValue(50)
+   .setValue(35)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
