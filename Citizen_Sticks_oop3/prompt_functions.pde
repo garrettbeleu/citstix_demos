@@ -74,6 +74,7 @@
       void displayPrompt(int x, int y) {
         if (vis) {       
          // String currPrompt = "hi";
+        textSize(50);
         pushMatrix();
         translate(x,y);
         fill(20,30);

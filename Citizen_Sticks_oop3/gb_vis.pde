@@ -8,7 +8,7 @@ class gbDrawCircs  {
   }
   
   
-  
+   // local wrapper function for find and draw functions 
   void updateCircles() {
       strokeWeight(3);
       noFill();
@@ -20,8 +20,7 @@ class gbDrawCircs  {
     
       findCircles(gbcv.matBlue, gbcv.circlesBlue, dsBlue);
       drawCircles(dsBlue.data, gbcv.circlesBlue, color(0, 0, 255));
-    
-    
+      
   }
   
   

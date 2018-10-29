@@ -36,8 +36,11 @@ FrameData gframe;
 OpenCV opencv;
 GBCV gbcv;
 gbDrawCircs gbcvis;
+promptControl pc;
 
 dataStorage dsRed, dsGreen, dsBlue;
+
+final PApplet uiObj = new sdUI(this);  
 
 // Main PApplet Sketch: 
 void settings() {
@@ -49,12 +52,15 @@ void settings() {
 }  
 
 void setup() {
-
+  runSketch(new String[] { "My uiObj Window" }, uiObj);
+ 
+ 
+  
   videoStartUpManager();
   textSize(16);
   textLeading(16);
   stroke(255);
-  loadGUI();
+  //loadGUI();
 }
 
 
@@ -89,6 +95,8 @@ void videoStartUpManager() {
   }
 
   // notes after test 2 update starting variables in gui tab
+  
+  pc = new  promptControl();
 
   gbcv = new GBCV();
   gbcvis  = new gbDrawCircs();
@@ -105,7 +113,9 @@ void draw() {
     updateCV();  
     drawCurrentUI();
     // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
- 
+    pc.loadPrompt();
+    pc.displayPrompt(width/2,100);
+
 }
 
 
@@ -155,7 +165,7 @@ void drawCurrentUI() {
 
   gbcv.drawVideo(whichVideo);
  
-  guiText(color(255), guiVisibility, whichVideo);
+  //  uiObj.guiText(color(255), guiVisibility, whichVideo);
   
   gbcvis.updateCircles();
  
@@ -167,9 +177,9 @@ void keyPressed() {
   if (key=='v') {
     guiVisibility = !guiVisibility;
     if (guiVisibility) {
-      cp5.show();
+    //  cp5.show();
     } else {
-      cp5.hide();
+    //  cp5.hide();
     }
   }
 

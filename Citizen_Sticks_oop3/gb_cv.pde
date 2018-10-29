@@ -41,7 +41,7 @@ class GBCV {
       // POST-PROCESS the gbMatRGB matrix, could also try preprocessing the opencv object (src video) instead
       // * * * * dilation followed by erosion has different results that erosion followed by dilation
       // https://stackoverflow.com/questions/30369031/remove-spurious-small-islands-of-noise-in-an-image-python-opencv
-      if( cp5.getController("morphTog").getValue()==1.0 ) {
+      if( uiObj.cp5.getController("morphTog").getValue()==1.0 ) {
         // dilate then erode = closing operation
         // erode then dilate = opening operation
         //Imgproc.dilate(gbMatRGB,gbMatRGB, new Mat() );

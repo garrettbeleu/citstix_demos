@@ -1,0 +1,37 @@
+[
+  {
+    "visual": "loops",
+    "id": 0,
+    "prompt": "Demo Phrase1"
+  },
+  {
+    "visual": "graph",
+    "id": 1,
+    "prompt": "Demo Phrase2"
+  },
+  {
+    "visual": "basic",
+    "id": 2,
+    "prompt": "Trans-Disciplinary"
+  },
+  {
+    "visual": "loops",
+    "id": 3,
+    "prompt": "Post-Internet"
+  },
+  {
+    "visual": "chart",
+    "id": 4,
+    "prompt": "Agency"
+  },
+  {
+    "visual": "basic",
+    "id": 5,
+    "prompt": "Proliferation"
+  },
+  {
+    "visual": "final",
+    "id": 6,
+    "prompt": "Sacred"
+  }
+]
