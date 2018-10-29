@@ -13,32 +13,38 @@ import org.opencv.core.Scalar;
 //java list and array modules
 import java.util.List;
 import java.util.Arrays;
+// java string builder
+import java.lang.StringBuilder;
 
 //controlP5 Lib
 import controlP5.*;
 
-//Startup Globals
-// FS sets the screen to full
-// isMovie true goes for sample movie and false means camera.
+//Start Globals
+// FS true sets the screen to full
 boolean fs = false;
-boolean isMovie = true;
-boolean dslr = false; // true for Logitech webcam - false for built in webcam
 char whichVideo = '`';
 boolean guiVisibility = true;
-
 //End
 
 //Main Objects 
-Movie mvideo; 
-Capture cvideo;
-Object fvideo;
+VideoSource inputVideo;
+Movie video;
+Capture cap;
 FrameData gframe; 
 OpenCV opencv;
 GBCV gbcv;
+<<<<<<< HEAD
 gbDrawCircs gbcvis;
 promptControl pc;
 
+=======
+>>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
 dataStorage dsRed, dsGreen, dsBlue;
+TextPanel tPanel = new TextPanel(0,0);
+
+Connections connections;
+VisualPercent vizPercent;
+
 
 final PApplet uiObj = new sdUI(this);  
 
@@ -47,11 +53,12 @@ void settings() {
   if (fs) {
     fullScreen();
   } else { 
-    size(1500, 900);
+    size(1280, 720);
   }
 }  
 
 void setup() {
+<<<<<<< HEAD
   runSketch(new String[] { "My uiObj Window" }, uiObj);
  
  
@@ -97,18 +104,38 @@ void videoStartUpManager() {
   // notes after test 2 update starting variables in gui tab
   
   pc = new  promptControl();
+=======
+  textSize(16);
+  textLeading(16);
+  stroke(255);
+  
+  //frameRate(0.5);
+>>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
 
+  // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
+  inputVideo = new VideoSource(video,this,"test2.mp4");
+  // //...camera input source
+  //inputVideo = new VideoSource(cap, this, 1280, 720); 
+  
+  opencv.useColor(HSB);// set cv colorspace to HSB for filtering
+  
   gbcv = new GBCV();
-  gbcvis  = new gbDrawCircs();
+  
   dsRed = new dataStorage();
   dsGreen = new dataStorage();
   dsBlue = new dataStorage();
+  connections  = new Connections();
+  vizPercent = new VisualPercent();
+  
+  loadGUI(); 
 }
 
-
 void draw() {
-  background(0, 0, 25);
+  background(0);
   
+  inputVideo.loadFrames();
+  
+<<<<<<< HEAD
    // seperation of the CV from the visuals.
     updateCV();  
     drawCurrentUI();
@@ -116,58 +143,55 @@ void draw() {
     pc.loadPrompt();
     pc.displayPrompt(width/2,100);
 
+=======
+  // seperation of the CV from the visuals.
+  updateCV();
+    
+  drawCurrentUI();
+    
+  //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
+ 
+>>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
 }
 
-
-void updateCV() {  
-  
-  if (isMovie) {  
-     //Read last captured frame
-   if (mvideo.available()) {
-      println("go m video");
-      mvideo.read();
-      opencv.loadImage(mvideo);
-   }   
-      
-   } else {
-     //Read last captured frame
-     if (cvideo.available()) {
-        println("go c video");
-        cvideo.read();
-        opencv.loadImage(cvideo);
-     } 
-   
-   }
-     
-  opencv.useColor(HSB); // set cv colorspace to HSB for filtering
-
+void updateCV() {
   // params* (input matrix, hue-low, hue-high, sat-low, sat-high, value-low, value-high, output matrix)
-  gbcv.inRangeGB( opencv.matHSV, rHueMin, rHueMax, rSatMin, rSatMax, rValMin, rValMax, gbcv.matRed );
-  gbcv.inRangeGB( opencv.matHSV, gHueMin, gHueMax, gSatMin, gSatMax, gValMin, gValMax, gbcv.matGreen );
-  gbcv.inRangeGB( opencv.matHSV, bHueMin, bHueMax, bSatMin, bSatMax, bValMin, bValMax, gbcv.matBlue );
-
-  // if toggle==true, then run inRange on higher set of red values(150-179) and add results to matRed
-  // note: should remove if statement and do this all the time, as it is neccessary!
-  //  if (red2Toggle.getValue()==1.0) {
-  gbcv.inRangeGB( opencv.matHSV, r2HueMin, r2HueMax, r2SatMin, r2SatMax, r2ValMin, r2ValMax, gbcv.matRed2 );
-  //add the 2 red filtered matrices into one (gbMatRed and gbMatRed2)
-  // place results back into gbMatRed so that code below does not need more if statements
+  gbcv.inRangeGB( opencv.matHSV, rHueMin,rHueMax, rSatMin,rSatMax, rValMin,rValMax, gbcv.matRed );
+  gbcv.inRangeGB( opencv.matHSV, gHueMin,gHueMax, gSatMin,gSatMax, gValMin,gValMax, gbcv.matGreen );
+  gbcv.inRangeGB( opencv.matHSV, bHueMin,bHueMax, bSatMin,bSatMax, bValMin,bValMax, gbcv.matBlue );
+  //run inRange on higher set of red values(150-179)
+  gbcv.inRangeGB( opencv.matHSV, r2HueMin,r2HueMax, r2SatMin,r2SatMax, r2ValMin,r2ValMax, gbcv.matRed2 );
+  //add the 2 red filtered matrices together, and place result back into matRed
   Core.addWeighted(gbcv.matRed, 1, gbcv.matRed2, 1, 0, gbcv.matRed );
-
-  // } else {
-  //  println("NO video");
-  //}
+  
+  //detect where circles are located
+  gbcv.findCircles(gbcv.matRed, gbcv.circlesRed, dsRed);
+  gbcv.findCircles(gbcv.matGreen, gbcv.circlesGreen, dsGreen);
+  gbcv.findCircles(gbcv.matBlue, gbcv.circlesBlue, dsBlue);
+   
 }
-
-
 
 void drawCurrentUI() {
 
-  gbcv.drawVideo(whichVideo);
+  //gbcv.drawVideo(whichVideo);
  
+<<<<<<< HEAD
   //  uiObj.guiText(color(255), guiVisibility, whichVideo);
+=======
+  //guiText(color(255), guiVisibility, whichVideo);
+   
+  connections.pushToScreen();
+>>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
   
-  gbcvis.updateCircles();
+  // full mode
+  //vizPercent.pushToScreen(100,"full");
+  
+  // this one is cool, but the problem is that it uses the
+  // opacity screen wipe technique, therefore
+  // background() and anything reliant on it cannot also be used
+  vizPercent.pushToScreen(255,"stripes");
+ 
+  tPanel.pushToScreen();
  
 }
 
@@ -191,27 +215,4 @@ void keyPressed() {
   if (key=='4') whichVideo='4'; // blue filtered 
   if (key=='0') whichVideo='0'; // no video (hide video) 
   
-}
-
-// - - - - print 2d array to compare values
-void print2D(double arr[][]) { 
-  print("print2D= ");  
-  // Loop through all rows 
-  for (double[] row : arr) {
-    // converting each row as string 
-    // and then printing in a separate line 
-    println(Arrays.toString(row));
-  }
-  println("");
-}
-
-void print2DFloats(float arr[][]) { 
-  print("print2D= ");  
-  // Loop through all rows 
-  for (float[] row : arr) {
-    // converting each row as string 
-    // and then printing in a separate line 
-    println(Arrays.toString(row));
-  }
-  println("");
 }
