@@ -38,7 +38,7 @@ class GBCV {
       // POST-PROCESS the gbMatRGB matrix, could also try preprocessing the opencv object (src video) instead
       // * * * * dilation followed by erosion has different results that erosion followed by dilation
       // https://stackoverflow.com/questions/30369031/remove-spurious-small-islands-of-noise-in-an-image-python-opencv
-      if( cp5.getController("morphTog").getValue()==1.0 ) {
+      if( objui.cp5.getController("morphTog").getValue()==1.0 ) {
         // dilate then erode = closing operation
         // erode then dilate = opening operation
         //Imgproc.dilate(gbMatRGB,gbMatRGB, new Mat() );
@@ -78,9 +78,9 @@ class GBCV {
   
   void findCircles(Mat input, Mat output, dataStorage theData) {
   Imgproc.HoughCircles(input, output, Imgproc.CV_HOUGH_GRADIENT, 
-                       dp.getValue() ,minDist.getValue(), 
-                       cannyHigh.getValue(), cannyLow.getValue(),
-                       int(minSize.getValue()),int(maxSize.getValue()) );
+                       objui.dp.getValue() ,objui.minDist.getValue(), 
+                       objui.cannyHigh.getValue(), objui.cannyLow.getValue(),
+                       int(objui.minSize.getValue()),int(objui.maxSize.getValue()) );
 
     if (output.rows()>0) {
       //println("dump= "+output.dump() +"\n");

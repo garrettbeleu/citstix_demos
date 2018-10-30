@@ -64,7 +64,7 @@ public static final class sdUI extends PApplet {
     textAlign(CENTER, CENTER);
     fill(20, 120, 20);
     loadGUI();
-     cp5.show(); // I think this is only necessary if you have hidden cp5
+    cp5.show(); // I think this is only necessary if you have hidden cp5
    
   }
   

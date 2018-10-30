@@ -34,8 +34,8 @@ FrameData gframe;
 OpenCV opencv;
 GBCV gbcv;
 
+gbDrawCircs gbcvis;
 promptControl pc;
-sdUI objui;  
 
 dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(0,0);
@@ -43,6 +43,8 @@ TextPanel tPanel = new TextPanel(0,0);
 Connections connections;
 VisualPercent vizPercent;
 
+sdUI objui;  
+  
 
 // Main PApplet Sketch: 
 void settings() {
@@ -58,17 +60,28 @@ void setup() {
   runSketch(new String[] { "My uiObj Window" }, objui);
  
   videoStartUpManager();
+  textSize(16);
+  textLeading(16);
+  stroke(255);
  
 }
 
 
-void videoStartUpManager() {   
+
+void videoStartUpManager() {
+
+  
+
+  // notes after test 2 update starting variables in gui tab
+  
+  
   textSize(16);
   textLeading(16);
   stroke(255);
   pc = new  promptControl();
 
   //frameRate(0.5);
+
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
   inputVideo = new VideoSource(video,this,"test2.mp4");
@@ -85,20 +98,22 @@ void videoStartUpManager() {
   connections  = new Connections();
   vizPercent = new VisualPercent();
  
-  //loadGUI(); // need this to create all those cp5 gui widgets
+  //SD temp
+  //loadGUI(); 
 }
 
 void draw() {
   background(0);
   
-  inputVideo.loadFrames();
+    inputVideo.loadFrames();
   
-  // seperation of the CV from the visuals.
-  updateCV();  
-  drawCurrentUI();
-  // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
-  pc.loadPrompt();
-  pc.displayPrompt(width/2,100);
+
+   // seperation of the CV from the visuals.
+    updateCV();  
+    drawCurrentUI();
+    // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
+    pc.loadPrompt();
+    pc.displayPrompt(width/2,100);
 
     
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
@@ -108,11 +123,11 @@ void draw() {
 
 void updateCV() {
   // params* (input matrix, hue-low, hue-high, sat-low, sat-high, value-low, value-high, output matrix)
-  gbcv.inRangeGB( opencv.matHSV, objui.rHueMin,objui.rHueMax, objui.rSatMin,objui.rSatMax, objui.rValMin,objui.rValMax, gbcv.matRed );
-  gbcv.inRangeGB( opencv.matHSV, objui.gHueMin,objui.gHueMax, objui.gSatMin,objui.gSatMax, objui.gValMin,objui.gValMax, gbcv.matGreen );
-  gbcv.inRangeGB( opencv.matHSV, objui.bHueMin,objui.bHueMax, objui.bSatMin,objui.bSatMax, objui.bValMin,objui.bValMax, gbcv.matBlue );
+  gbcv.inRangeGB( opencv.matHSV, objui.rHueMin,objui.rHueMax,  objui.rSatMin, objui.rSatMax,  objui.rValMin, objui.rValMax, gbcv.matRed );
+  gbcv.inRangeGB( opencv.matHSV,  objui.gHueMin, objui.gHueMax,  objui.gSatMin, objui.gSatMax, objui.gValMin, objui.gValMax, gbcv.matGreen );
+  gbcv.inRangeGB( opencv.matHSV,  objui.bHueMin, objui.bHueMax,  objui.bSatMin, objui.bSatMax, objui.bValMin, objui.bValMax, gbcv.matBlue );
   //run inRange on higher set of red values(150-179)
-  gbcv.inRangeGB( opencv.matHSV, objui.r2HueMin,objui.r2HueMax, objui.r2SatMin,objui.r2SatMax, objui.r2ValMin,objui.r2ValMax, gbcv.matRed2 );
+  gbcv.inRangeGB( opencv.matHSV,  objui.r2HueMin, objui.r2HueMax,  objui.r2SatMin, objui.r2SatMax,  objui.r2ValMin, objui.r2ValMax, gbcv.matRed2 );
   //add the 2 red filtered matrices together, and place result back into matRed
   Core.addWeighted(gbcv.matRed, 1, gbcv.matRed2, 1, 0, gbcv.matRed );
   
@@ -125,20 +140,24 @@ void updateCV() {
 
 void drawCurrentUI() {
 
-  gbcv.drawVideo(whichVideo);
-  //uiObj.guiText(color(255), guiVisibility, whichVideo);
+  //gbcv.drawVideo(whichVideo);
+ 
+
+  //  uiObj.guiText(color(255), guiVisibility, whichVideo);
 
   //guiText(color(255), guiVisibility, whichVideo);
+   
   connections.pushToScreen();
+  
   // full mode
-  vizPercent.pushToScreen(100,"full");
+  //vizPercent.pushToScreen(100,"full");
   
   // this one is cool, but the problem is that it uses the
   // opacity screen wipe technique, therefore
   // background() and anything reliant on it cannot also be used
-  //vizPercent.pushToScreen(255,"stripes");
+  vizPercent.pushToScreen(255,"stripes");
  
-  //tPanel.pushToScreen();
+  tPanel.pushToScreen();
  
 }
 
