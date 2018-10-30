@@ -57,7 +57,7 @@ public class sdUI extends PApplet {
   
   
   void settings() {
-     size(800, 500 );
+     size(770, 470 );
     
     //smooth(4);
   }
