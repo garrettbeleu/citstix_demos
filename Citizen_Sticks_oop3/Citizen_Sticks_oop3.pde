@@ -100,10 +100,8 @@ void draw() {
   pc.loadPrompt();
   pc.displayPrompt(width/2,100);
 
-    
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
  
-
 }
 
 void updateCV() {

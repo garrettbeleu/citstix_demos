@@ -2,19 +2,18 @@
  public String UIPrompt ="naz";
 
 // Nested PApplet Class A:
-public static final class sdUI extends PApplet {
-    PApplet parent;
+public class sdUI extends PApplet {
+    PApplet mainparent;
     
     ControlP5 cp5;
     Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
     Range redRangeHue2, redRangeSat2, redRangeVal2;
     Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
 
-    
     //sd
     Textarea promptTxt;
-    
-    
+      
+     
     //initial slider values
     int rHueMin = 0;   int rHueMax = 10;
     int rSatMin = 75; int rSatMax = 255;
@@ -31,14 +30,12 @@ public static final class sdUI extends PApplet {
     int bHueMin = 100; int bHueMax = 135;
     int bSatMin = 75; int bSatMax = 255;
     int bValMin = 75; int bValMax = 255;
-    
-    
+      
     PFont fontF;
     
-  
-
+    
      public sdUI(PApplet parent){
-      this.parent = parent;
+      this.mainparent = parent;
      
       //super();
       //PApplet.runSketch(new String[]{this.getClass().getName()}, this);
@@ -58,7 +55,7 @@ public static final class sdUI extends PApplet {
   }
   
   
-  void setup() {
+  public void setup() {
     textFont(createFont("SansSerif", 24, true));
     fontF = createFont("arial",18);
     textAlign(CENTER, CENTER);
@@ -68,12 +65,14 @@ public static final class sdUI extends PApplet {
    
   }
   
-  void draw() {
+   void draw() {
     background(200);
+    textSize(16);
+    textLeading(16);
+    stroke(255);
+  //  guiText(color(255), true, '`'); // just testing this here, the global variable don't reach this :(
+    guiText(color(255), guiVisibility, whichVideo);
     
-    guiText(color(255), true, '`'); // just testing this here, the global variable don't reach this :(
-    //guiText(color(255), guiVisibility, whichVideo);
-  
    //promptTxt.setText(UIPrompt);
   }
   
