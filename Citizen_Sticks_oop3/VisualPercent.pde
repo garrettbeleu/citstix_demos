@@ -51,6 +51,7 @@ class VisualPercent {
         greenEase += gX * easing;
         constrain(greenEase,0,width);
         //println("red ease:"+redEase + " green ease:"+greenEase);
+        //println(width);
       
         fill(255,0,0,opacity);
         rect(0,0,redEase,height);

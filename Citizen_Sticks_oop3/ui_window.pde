@@ -9,7 +9,7 @@ public static final class sdUI extends PApplet {
     Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
     Range redRangeHue2, redRangeSat2, redRangeVal2;
     Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
-    Toggle red2Toggle;
+
     
     //sd
     Textarea promptTxt;
@@ -31,6 +31,7 @@ public static final class sdUI extends PApplet {
     int bHueMin = 100; int bHueMax = 135;
     int bSatMin = 75; int bSatMax = 255;
     int bValMin = 75; int bValMax = 255;
+    
     
     PFont fontF;
     
@@ -63,12 +64,15 @@ public static final class sdUI extends PApplet {
     textAlign(CENTER, CENTER);
     fill(20, 120, 20);
     loadGUI();
-     cp5.show();
+     cp5.show(); // I think this is only necessary if you have hidden cp5
    
   }
   
   void draw() {
     background(200);
+    
+    guiText(color(255), true, '`'); // just testing this here, the global variable don't reach this :(
+    //guiText(color(255), guiVisibility, whichVideo);
   
    //promptTxt.setText(UIPrompt);
   }
@@ -177,16 +181,6 @@ void blueRangeVal() {
 }
 
 //toggle gui visibilities and color
-void red2Toggle(boolean theFlag) {
-  redRangeHue2.setVisible(theFlag);
-  redRangeSat2.setVisible(theFlag);
-  redRangeVal2.setVisible(theFlag);
-  if (theFlag) {
-    cp5.getController("red2Toggle").setColorActive(color(15,255,80));
-  }else{
-     cp5.getController("red2Toggle").setColorActive(color(255,15,80));
-  }
-}
 void morphTog(boolean theFlag) {
   if (theFlag) {
     cp5.getController("morphTog").setColorActive(color(15,255,80));
@@ -224,7 +218,7 @@ void loadGUI() {
                   ;
     promptTxt.setText("HI");
     
-  redRangeHue = cp5.addRange("redRangeHue")
+redRangeHue = cp5.addRange("redRangeHue")
        // disable broadcasting since setRange and setRangeValues will trigger an event
        .setBroadcast(false) 
        .setPosition(50,height-270)
@@ -359,18 +353,8 @@ void loadGUI() {
        .setColorBackground(color(255,0,0,40))
        .setColorValueLabel(255)
        .setCaptionLabel("Val");
-             
-  red2Toggle = cp5.addToggle("red2Toggle")
-       .setPosition(290,height-315)
-       .setSize(50,20)
-       .setBroadcast(false)
-       .setValue(true)
-       .setBroadcast(true)
-       .setMode(ControlP5.SWITCH)
-       .setColorActive(color(15,255,80))
-       .setColorBackground(color(255))
-       .setCaptionLabel("Red 2 Toggle");
-
+  
+ //these sliders are for the higher HSB red values (150-179)           
   redRangeHue2 = cp5.addRange("redRangeHue2")
        // disable broadcasting since setRange and setRangeValues will trigger an event
        .setBroadcast(false) 
@@ -444,8 +428,8 @@ void loadGUI() {
   minDist = cp5.addNumberbox("minDist")
    .setPosition(350,height-60)
    .setSize(45,20)
-   .setRange(1,500)
-   .setValue(35)
+   .setRange(1,100)
+   .setValue(30)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -458,7 +442,7 @@ void loadGUI() {
    .setPosition(410,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(80)
+   .setValue(50)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -471,7 +455,7 @@ void loadGUI() {
    .setPosition(470,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(30)
+   .setValue(19)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -496,15 +480,15 @@ void loadGUI() {
   maxSize = cp5.addNumberbox("maxSize")
    .setPosition(590,height-60)
    .setSize(45,20)
-   .setRange(50,500)
-   .setValue(80)
+   .setRange(5,200)
+   .setValue(35)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
    .setColorValueLabel(255)
    .setScrollSensitivity(0.2)
    .setDirection(Controller.HORIZONTAL);
-     maxSize.getCaptionLabel().toUpperCase(false);
+     maxSize.getCaptionLabel().toUpperCase(false); 
 }
   
 

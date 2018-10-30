@@ -1,10 +1,8 @@
 
-
 ControlP5 cp5;
 Range redRangeHue,redRangeSat,redRangeVal, greenRangeHue,greenRangeSat,greenRangeVal, blueRangeHue,blueRangeSat,blueRangeVal;
 Range redRangeHue2, redRangeSat2, redRangeVal2;
 Numberbox dp,minDist,cannyHigh,cannyLow,minSize,maxSize;
-
 
 //initial slider values
 int rHueMin = 0;   int rHueMax = 10;
@@ -105,19 +103,6 @@ void blueRangeSat() {
 void blueRangeVal() {
   bValMin = round(blueRangeVal.getLowValue());
   bValMax = round(blueRangeVal.getHighValue());
-}
-
-
-//toggle gui visibilities and color
-void red2Toggle(boolean theFlag) {
-  redRangeHue2.setVisible(theFlag);
-  redRangeSat2.setVisible(theFlag);
-  redRangeVal2.setVisible(theFlag);
-  if (theFlag) {
-    cp5.getController("red2Toggle").setColorActive(color(15,255,80));
-  }else{
-     cp5.getController("red2Toggle").setColorActive(color(255,15,80));
-  }
 }
 
 
@@ -271,18 +256,7 @@ void loadGUI() {
        .setColorValueLabel(255)
        .setCaptionLabel("Val");
              
-
-  //red2Toggle = cp5.addToggle("red2Toggle")
-  //     .setPosition(290,height-315)
-  //     .setSize(50,20)
-  //     .setBroadcast(false)
-  //     .setValue(true)
-  //     .setBroadcast(true)
-  //     .setMode(ControlP5.SWITCH)
-  //     .setColorActive(color(15,255,80))
-  //     .setColorBackground(color(255))
-  //     .setCaptionLabel("Red 2 Toggle");
-
+  //these sliders are for the higher HSB red values (150-179)
   redRangeHue2 = cp5.addRange("redRangeHue2")
        // disable broadcasting since setRange and setRangeValues will trigger an event
        .setBroadcast(false) 
@@ -297,24 +271,7 @@ void loadGUI() {
        .setColorBackground(color(255,15,80,40))
        .setColorValueLabel(255)
        .setCaptionLabel("Hue 2");
-
-
-  redRangeHue2 = cp5.addRange("redRangeHue2")
-       // disable broadcasting since setRange and setRangeValues will trigger an event
-       .setBroadcast(false) 
-       .setPosition(290,height-270)
-       .setSize(200,20)
-       .setHandleSize(10)
-       .setRange(150,179)
-       .setRangeValues(r2HueMin,r2HueMax)
-       // after the initialization we turn broadcast back on again
-       .setBroadcast(true)
-       .setColorForeground(color(255,15,80))
-       .setColorBackground(color(255,15,80,40))
-       .setColorValueLabel(255)
-       .setCaptionLabel("Hue 2");
-
-       
+     
   redRangeSat2 = cp5.addRange("redRangeSat2")
        // disable broadcasting since setRange and setRangeValues will trigger an event
        .setBroadcast(false) 
@@ -370,12 +327,11 @@ void loadGUI() {
    .setCaptionLabel("Rez");
      dp.getCaptionLabel().toUpperCase(false);
      
-
   minDist = cp5.addNumberbox("minDist")
    .setPosition(350,height-60)
    .setSize(45,20)
-   .setRange(1,500)
-   .setValue(35)
+   .setRange(1,100)
+   .setValue(30)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -388,7 +344,7 @@ void loadGUI() {
    .setPosition(410,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(80)
+   .setValue(50)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -401,7 +357,7 @@ void loadGUI() {
    .setPosition(470,height-60)
    .setSize(45,20)
    .setRange(1,500)
-   .setValue(30)
+   .setValue(19)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))
@@ -409,10 +365,7 @@ void loadGUI() {
    .setScrollSensitivity(0.2)
   .setDirection(Controller.HORIZONTAL);
      cannyLow.getCaptionLabel().toUpperCase(false);
-
- 
-
-     
+    
   minSize = cp5.addNumberbox("minSize")
    .setPosition(530,height-60)
    .setSize(45,20)
@@ -426,12 +379,11 @@ void loadGUI() {
    .setDirection(Controller.HORIZONTAL);
      minSize.getCaptionLabel().toUpperCase(false);
      
-
   maxSize = cp5.addNumberbox("maxSize")
    .setPosition(590,height-60)
    .setSize(45,20)
-   .setRange(50,500)
-   .setValue(80)
+   .setRange(5,200)
+   .setValue(35)
    .setColorForeground(color(255,0,0))
    .setColorActive(color(255,0,0,125))
    .setColorBackground(color(255,255,255))

@@ -34,7 +34,6 @@ FrameData gframe;
 OpenCV opencv;
 GBCV gbcv;
 
-gbDrawCircs gbcvis;
 promptControl pc;
 
 dataStorage dsRed, dsGreen, dsBlue;
@@ -60,28 +59,17 @@ void setup() {
   runSketch(new String[] { "My uiObj Window" }, uiObj);
  
   videoStartUpManager();
-  textSize(16);
-  textLeading(16);
-  stroke(255);
  
 }
 
 
-
-void videoStartUpManager() {
-
-  
-
-  // notes after test 2 update starting variables in gui tab
-  
-  
+void videoStartUpManager() {   
   textSize(16);
   textLeading(16);
   stroke(255);
   pc = new  promptControl();
 
   //frameRate(0.5);
-
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
   inputVideo = new VideoSource(video,this,"test2.mp4");
@@ -98,22 +86,21 @@ void videoStartUpManager() {
   connections  = new Connections();
   vizPercent = new VisualPercent();
  
-  //SD temp
-  //loadGUI(); 
+  loadGUI(); // need this to create all those cp5 gui widgets
 }
 
 void draw() {
   background(0);
   
-    inputVideo.loadFrames();
+  inputVideo.loadFrames();
   
-
-   // seperation of the CV from the visuals.
-    updateCV();  
-    drawCurrentUI();
-    // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
-    pc.loadPrompt();
-    pc.displayPrompt(width/2,100);
+  
+  // seperation of the CV from the visuals.
+  updateCV();  
+  drawCurrentUI();
+  // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
+  pc.loadPrompt();
+  pc.displayPrompt(width/2,100);
 
     
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
@@ -140,24 +127,24 @@ void updateCV() {
 
 void drawCurrentUI() {
 
-  //gbcv.drawVideo(whichVideo);
+  gbcv.drawVideo(whichVideo);
  
 
-  //  uiObj.guiText(color(255), guiVisibility, whichVideo);
+  //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
   //guiText(color(255), guiVisibility, whichVideo);
    
   connections.pushToScreen();
   
   // full mode
-  //vizPercent.pushToScreen(100,"full");
+  vizPercent.pushToScreen(100,"full");
   
   // this one is cool, but the problem is that it uses the
   // opacity screen wipe technique, therefore
   // background() and anything reliant on it cannot also be used
-  vizPercent.pushToScreen(255,"stripes");
+  //vizPercent.pushToScreen(255,"stripes");
  
-  tPanel.pushToScreen();
+  //tPanel.pushToScreen();
  
 }
 
