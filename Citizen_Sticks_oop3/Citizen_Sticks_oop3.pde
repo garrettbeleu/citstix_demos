@@ -33,12 +33,10 @@ Capture cap;
 FrameData gframe; 
 OpenCV opencv;
 GBCV gbcv;
-<<<<<<< HEAD
+
 gbDrawCircs gbcvis;
 promptControl pc;
 
-=======
->>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
 dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(0,0);
 
@@ -58,59 +56,32 @@ void settings() {
 }  
 
 void setup() {
-<<<<<<< HEAD
+
   runSketch(new String[] { "My uiObj Window" }, uiObj);
  
- 
-  
   videoStartUpManager();
   textSize(16);
   textLeading(16);
   stroke(255);
-  //loadGUI();
+ 
 }
 
 
 
 void videoStartUpManager() {
 
-  if (isMovie) {
-    // use test video
-    mvideo = new Movie(this, "demo1Edit.mp4"); 
-    mvideo.loop();
-    mvideo.read(); //needed so that video.width&height !=empty for the cv object
-    
-   opencv = new OpenCV(this, mvideo.width, mvideo.height);
-   gframe = new FrameData(mvideo.width, mvideo.height);
-  } else {
-     // use camera, either dslr or webcam
-    String[] cameras = Capture.list();
-    printArray(cameras);
-    
-    if (dslr==true && isMovie==false) {
-      cvideo = new Capture(this, 1280, 720, cameras[15], 30);
-      cvideo.start();
-    } else {
-      // video = new Capture(this, 1280, 720, "FaceTime HD Camera", 30);
-      cvideo = new Capture(this, 1280, 720, cameras[0]);
-      cvideo.start();
-       
-    }
-    
-    opencv = new OpenCV(this, cvideo.width, cvideo.height);
-    gframe = new FrameData(cvideo.width, cvideo.height);
-  }
+  
 
   // notes after test 2 update starting variables in gui tab
   
-  pc = new  promptControl();
-=======
+  
   textSize(16);
   textLeading(16);
   stroke(255);
-  
+  pc = new  promptControl();
+
   //frameRate(0.5);
->>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
+
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
   inputVideo = new VideoSource(video,this,"test2.mp4");
@@ -126,16 +97,17 @@ void videoStartUpManager() {
   dsBlue = new dataStorage();
   connections  = new Connections();
   vizPercent = new VisualPercent();
-  
-  loadGUI(); 
+ 
+  //SD temp
+  //loadGUI(); 
 }
 
 void draw() {
   background(0);
   
-  inputVideo.loadFrames();
+    inputVideo.loadFrames();
   
-<<<<<<< HEAD
+
    // seperation of the CV from the visuals.
     updateCV();  
     drawCurrentUI();
@@ -143,15 +115,10 @@ void draw() {
     pc.loadPrompt();
     pc.displayPrompt(width/2,100);
 
-=======
-  // seperation of the CV from the visuals.
-  updateCV();
-    
-  drawCurrentUI();
     
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
  
->>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
+
 }
 
 void updateCV() {
@@ -175,13 +142,12 @@ void drawCurrentUI() {
 
   //gbcv.drawVideo(whichVideo);
  
-<<<<<<< HEAD
+
   //  uiObj.guiText(color(255), guiVisibility, whichVideo);
-=======
+
   //guiText(color(255), guiVisibility, whichVideo);
    
   connections.pushToScreen();
->>>>>>> 972b4552d8b91957f182e3c807b1dccca4329674
   
   // full mode
   //vizPercent.pushToScreen(100,"full");
