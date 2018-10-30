@@ -12,7 +12,14 @@ public class sdUI extends PApplet {
 
     //sd
     Textarea promptTxt;
-      
+    Textarea visualTxt;
+    
+    Textarea currPromptTxt;
+    Textarea currVisualTxt;
+     
+    
+    
+     
      
     //initial slider values
     int rHueMin = 0;   int rHueMax = 10;
@@ -51,22 +58,26 @@ public class sdUI extends PApplet {
   
   void settings() {
      size(800, 500 );
+    
     //smooth(4);
   }
   
   
   public void setup() {
+     background(50);
     textFont(createFont("SansSerif", 24, true));
     fontF = createFont("arial",18);
     textAlign(CENTER, CENTER);
     fill(20, 120, 20);
     loadGUI();
     cp5.show(); // I think this is only necessary if you have hidden cp5
+    
+     
    
   }
   
    void draw() {
-    background(200);
+    background(50);
     textSize(16);
     textLeading(16);
     stroke(255);
@@ -86,7 +97,7 @@ void keyPressed() {
   int k = keyCode; 
   // if (k == ENTER | k == RETURN)  //activateSketch(another);
   
-  //if (k == 'T') parent.toggleSketch(this);  // disableSketch(another); 
+ //  if (k == 'T') mainparent.toggleSketch(this);  // disableSketch(another); 
   //if (k == 'S') saveWords();
   //if (k == 'L') loadWords();
   
@@ -99,30 +110,36 @@ void keyPressed() {
   
 public void guiText(color c, boolean state, char theCase) {
   if(state) {
+    textAlign(LEFT);
+    pushMatrix();
+    translate(20,30);
     fill(c);
-    text("fR: "+frameRate,50,height-310);
-    text("HoughCircles params",290,height-70);
+    text("fR: "+frameRate,0,0);
+    text("HoughCircles params",0,25);
 
     switch(theCase) {
       case '`':
-        text("video: SRC", 50, height-290);
+        text("video: SRC", 0,50);
         break;
       case '1':
-        text("video: R&G&B", 50, height-290);
+        text("video: R&G&B", 0, 50);
         break;
       case '2':
-        text("video: RED FILTERED", 50, height-290);
+        text("video: RED FILTERED", 0, 50);
         break;
       case '3':
-        text("video: GREEN FILTERED", 50, height-290);
+        text("video: GREEN FILTERED", 0, 50);
         break;
       case '4':
-        text("video: BLUE FILTERED", 50, height-290);
+        text("video: BLUE FILTERED", 0, 50);
         break;
       case '0':
-        text("video: HIDE", 50, height-290);
+        text("video: HIDE", 0, 50);
         break;
     }
+    
+    popMatrix();
+    
   }
 }
 
@@ -192,30 +209,10 @@ void morphTog(boolean theFlag) {
 //initialize all the gui elements
 void loadGUI() {
   cp5 = new ControlP5(this);
-  
-  
-  ////SD  input field
-  //cp5.addTextfield("input")
-  //   .setPosition(10,100)
-  //   .setSize(600,70)
-  //   .setFont(createFont("arial",45))
-  //   .setFocus(true)
-  //   .setColor(color(255))
-  //   .setColorForeground(color(255,80,80))
-  //   .setColorBackground(color(255,0,0,40))
-  //   .setColorValueLabel(100)
-  //   .setCaptionLabel("");
-     
-  promptTxt = cp5.addTextarea("promptTxt")
-                  .setPosition(100,100)
-                  .setSize(200,200)
-                  .setFont(createFont("arial",12))
-                  .setLineHeight(14)
-                  .setColor(color(128))
-                  .setColorBackground(color(255,100))
-                  .setColorForeground(color(255,100));
-                  ;
-    promptTxt.setText("HI");
+   
+   //PImage[] for_imgs = {loadImage("data/button_a.png"),loadImage("button_b.png"),loadImage("button_c.png")};
+   //PImage[] bak_imgs = {loadImage("data/ba_button_a.png"),loadImage("ba_button_b.png"),loadImage("ba_button_c.png")};
+
     
 redRangeHue = cp5.addRange("redRangeHue")
        // disable broadcasting since setRange and setRangeValues will trigger an event
@@ -488,10 +485,91 @@ redRangeHue = cp5.addRange("redRangeHue")
    .setScrollSensitivity(0.2)
    .setDirection(Controller.HORIZONTAL);
      maxSize.getCaptionLabel().toUpperCase(false); 
-}
   
+  promptTxt = cp5.addTextarea("promptTxt")
+            .setPosition(500,20)
+            .setSize(200,50)
+            .setFont(createFont("arial",22))
+            .setColor(color(255))
+            .setColorBackground(color(80))
+            .setColorForeground(color(255));
+            
+ promptTxt.setText("The Prompt");      
+          
+  // buttons with images for Prompt 
+  cp5.addButton("prompt_for")
+     .setValue(128)
+     .setPosition(700,20)
+     .setImages(for_imgs)
+     .updateSize();
+     
+  cp5.addButton("prompt_bak")
+     .setValue(128)
+     .setPosition(450,20)
+     .setImages(bak_imgs)
+     .updateSize();
+         
+ visualTxt = cp5.addTextarea("visTxt")
+            .setPosition(500,100)
+            .setSize(200,50)
+            .setFont(createFont("arial",22))
+            .setColor(color(255))
+            .setColorBackground(color(80))
+            .setColorForeground(color(255));
+            
+  visualTxt.setText("The Vis");   
+  
+   // buttons with images for Vis 
+  cp5.addButton("vis_for")
+     .setValue(128)
+     .setPosition(700,100)
+     .setImages(for_imgs)
+     .updateSize() ;
+     
+  cp5.addButton("vis_bak")
+     .setValue(128)
+     .setPosition(450,100)
+     .setImages(bak_imgs)
+     .updateSize();
+     
+  currPromptTxt = cp5.addTextarea("cPromptTxt")
+        .setPosition(220,20)
+        .setSize(200,50)
+        .setFont(createFont("arial",22))
+        .setColor(color(255))
+        .setColorBackground(color(80))
+        .setColorForeground(color(255));
+        
+  currPromptTxt.setText("The curr Prompt");   
+  
+   currVisualTxt = cp5.addTextarea("cVisTxt")
+        .setPosition(220,100)
+        .setSize(200,50)
+        .setFont(createFont("arial",22))
+        .setColor(color(255))
+        .setColorBackground(color(80))
+        .setColorForeground(color(255));      
+  currVisualTxt.setText("The curr Visual");   
+ 
+     
+}
+
+ public void prompt_for(int theValue) {
+     println("a button event from prompt_for: "+theValue);
+   }
+
+ public void prompt_bak(int theValue) {
+     println("a button event from prompt_bak: "+theValue);
+   }
 
   
- 
+  public void vis_for(int theValue) {
+     println("a button event from vis_for: "+theValue);
+   }
+   
+  public void vis_bak(int theValue) {
+     println("a button event from vis_bak: "+theValue);
+   }
+
   
 }  // END OF UI Applet

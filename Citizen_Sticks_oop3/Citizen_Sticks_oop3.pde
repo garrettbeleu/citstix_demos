@@ -24,6 +24,11 @@ import controlP5.*;
 boolean fs = false;
 char whichVideo = '`';
 boolean guiVisibility = true;
+
+PImage[] for_imgs = new PImage[3];
+PImage[] bak_imgs = new PImage[3];
+
+
 //End
 
 //Main Objects 
@@ -56,6 +61,16 @@ void settings() {
 void setup() {
   objui = new sdUI(this); 
   runSketch(new String[] { "My uiObj Window" }, objui);
+ 
+  for_imgs[0] = loadImage("button_a.png");
+  for_imgs[1] = loadImage("button_b.png");
+  for_imgs[2] = loadImage("button_c.png");
+  
+  bak_imgs[0] = loadImage("ba_button_a.png");
+  bak_imgs[1] = loadImage("ba_button_b.png");
+  bak_imgs[2] = loadImage("ba_button_c.png");
+
+
  
   videoStartUpManager();
  
@@ -127,9 +142,9 @@ void drawCurrentUI() {
   //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
   //guiText(color(255), guiVisibility, whichVideo);
-  connections.pushToScreen();
+ // connections.pushToScreen();
   // full mode
-  vizPercent.pushToScreen(100,"full");
+ // vizPercent.pushToScreen(100,"full");
   
   // this one is cool, but the problem is that it uses the
   // opacity screen wipe technique, therefore
