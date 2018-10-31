@@ -47,7 +47,7 @@ TextPanel tPanel = new TextPanel(0,0);
 
 Connections connections;
 VisualPercent vizPercent;
-
+ArrayList<Particle> particles;
 
 // Main PApplet Sketch: 
 void settings() {
@@ -106,6 +106,7 @@ void videoStartUpManager() {
   dsBlue = new dataStorage();
   connections  = new Connections();
   vizPercent = new VisualPercent();
+  particles = new ArrayList<Particle>();
  
   //loadGUI(); // need this to create all those cp5 gui widgets
 }
@@ -156,13 +157,16 @@ switch(pc.visNum) {
     vizPercent.pushToScreen(100,"full");
     break;
   case 2: 
-    vizPercent.pushToScreen(100,"stripe");
+    //this one needs a way to turn of background()
+    //maybe only use background in every case that needs it - just a note for the futre
+    background(0,0,0,0); //background with alpha does not work
+    vizPercent.pushToScreen(100,"stripes");
     break;
   case 3:
     tPanel.pushToScreen();
     break;
   case 4:
-    //zzzz.pushToScreen();
+    doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
     break;
   //case 5:
   //  //zzzz.pushToScreen();
@@ -184,7 +188,6 @@ switch(pc.visNum) {
   
   //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
-  //guiText(color(255), guiVisibility, whichVideo);
  // connections.pushToScreen();
   // full mode
   ///vizPercent.pushToScreen(100,"full");
@@ -193,20 +196,5 @@ switch(pc.visNum) {
   // opacity screen wipe technique, therefore
   // background() and anything reliant on it cannot also be used
   //vizPercent.pushToScreen(255,"stripes");
- 
-  
- 
-}
-
-
-void keyPressed() {
-
-  //switch case state
-  if (key=='`') whichVideo='`'; // src video
-  if (key=='1') whichVideo='1'; // R&G&B filtered
-  if (key=='2') whichVideo='2'; // red filtered
-  if (key=='3') whichVideo='3'; // green filtered
-  if (key=='4') whichVideo='4'; // blue filtered 
-  if (key=='0') whichVideo='0'; // no video (hide video) 
   
 }

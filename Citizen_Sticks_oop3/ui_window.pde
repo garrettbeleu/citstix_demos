@@ -100,7 +100,15 @@ void keyPressed() {
   //if (k == 'S') saveWords();
   //if (k == 'L') loadWords();
   
-  println(k);
+  //println(k);
+  
+  //switch case for video drawing
+  if (key=='`') whichVideo='`'; // src video
+  if (key=='1') whichVideo='1'; // R&G&B filtered
+  if (key=='2') whichVideo='2'; // red filtered
+  if (key=='3') whichVideo='3'; // green filtered
+  if (key=='4') whichVideo='4'; // blue filtered 
+  if (key=='0') whichVideo='0'; // no video (hide video) 
   
 }
   

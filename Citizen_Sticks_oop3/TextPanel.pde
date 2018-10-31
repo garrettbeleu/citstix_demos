@@ -25,7 +25,7 @@ class TextPanel {
   
     TextPanel(int _x, int _y ) {
       x = _x;
-      y = _y+14;
+      y = _y+16;
     }
     
     void buildString(float[][] r, float[][] g, float[][] b, color c ) {  
@@ -35,14 +35,23 @@ class TextPanel {
       float total = r.length + g.length + b.length;
       float percent = total*100/participants;
       
+      float redPercent = r.length*100/total;
+      float greenPercent = g.length*100/total;
+      float bluePercent = b.length*100/total;
+      
       //the font to use
       textFont(helv20,20);
       
       //format the percentage string to 2 decimal places
       text("Participation: "+String.format("%.2f", percent)+"%", x,y);
-      text( "Red: "+r.length, x, y+40);
-      text( "Green: "+g.length, x+120, y+40);
-      text( "Blue: "+b.length, x+240, y+40);
+      
+      text("Red: "+ int(redPercent) +"%", x,y+40);
+      text("Green: "+ int(greenPercent) +"%", x+120,y+40);
+      text("Blue: "+ int(bluePercent) +"%", x+260,y+40);
+      //old non-percentage numbers
+      //text( "Red: "+r.length, x, y+40);
+      //text( "Green: "+g.length, x+120, y+40);
+      //text( "Blue: "+b.length, x+260, y+40);
       
       for(int i=0; i<r.length; i++) {
         for( int j=0; j<r[i].length; j++) {
@@ -79,7 +88,7 @@ class TextPanel {
       String blueString = blueStrBuilder.toString();
       text( redString, x, y+80);
       text( greenString, x+120, y+80);
-      text( blueString, x+240, y+80);
+      text( blueString, x+260, y+80);
       //clear the stringBuilder object for next cycle
       redStrBuilder.setLength(0);
       greenStrBuilder.setLength(0);
