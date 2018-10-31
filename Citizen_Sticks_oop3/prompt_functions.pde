@@ -71,6 +71,12 @@
          vis = state;
       }
       
+      
+      /* 
+      -- Be aware that these rectMode and maybe textAlign functions 
+      -- will influence any other drawings that follow it
+      -- unless explicitly reset to the default rectMode(CORNER)... etc
+      */
       void displayPrompt(int x, int y) {
         if (vis) {       
          // String currPrompt = "hi";

@@ -65,12 +65,15 @@ public class sdUI extends PApplet {
   
   public void setup() {
      background(50);
-    textFont(createFont("SansSerif", 24, true));
+     
+    // below textFont gives me an error occasionally
+    //textFont(createFont("SansSerif", 24, true));
+    
     fontF = createFont("arial",18);
     textAlign(CENTER, CENTER);
     fill(20, 120, 20);
     loadGUI();
-    cp5.show(); // I think this is only necessary if you have hidden cp5
+    //cp5.show(); // I think this is only necessary if you have hidden cp5
     
      
    
@@ -115,7 +118,8 @@ public void guiText(color c, boolean state, char theCase) {
     translate(20,30);
     fill(c);
     text("fR: "+frameRate,0,0);
-    text("HoughCircles params",0,25);
+    
+    text("HoughCircles params",360,370); //this is the label for the white numberboxes - moved back GB
 
     switch(theCase) {
       case '`':

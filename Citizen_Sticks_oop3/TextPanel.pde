@@ -7,8 +7,14 @@ _-_-_-_-_-_-_-_-_-_-_-_
 /*
 TO-DO
 -add font stylings
--maybe adjust positions relative to eachother 
+-maybe adjust positions relative to eachother
+-the hard values used in these text() commands could be made dynamic...
+  ... but leave for now until we decide upon a final font size
 */
+
+// global scope font
+PFont helv20;
+PFont helvBold20;
 
 class TextPanel {
   int x,y;
@@ -28,6 +34,9 @@ class TextPanel {
       float participants = 18;
       float total = r.length + g.length + b.length;
       float percent = total*100/participants;
+      
+      //the font to use
+      textFont(helv20,20);
       
       //format the percentage string to 2 decimal places
       text("Participation: "+String.format("%.2f", percent)+"%", x,y);

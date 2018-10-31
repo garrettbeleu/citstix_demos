@@ -24,11 +24,6 @@ import controlP5.*;
 boolean fs = false;
 char whichVideo = '`';
 boolean guiVisibility = true;
-
-PImage[] for_imgs = new PImage[3];
-PImage[] bak_imgs = new PImage[3];
-
-
 //End
 
 //Main Objects 
@@ -62,24 +57,7 @@ void setup() {
   objui = new sdUI(this); 
   runSketch(new String[] { "My uiObj Window" }, objui);
  
-  for_imgs[0] = loadImage("button_a.png");
-  for_imgs[1] = loadImage("button_b.png");
-  for_imgs[2] = loadImage("button_c.png");
-  
-  bak_imgs[0] = loadImage("ba_button_a.png");
-  bak_imgs[1] = loadImage("ba_button_b.png");
-  bak_imgs[2] = loadImage("ba_button_c.png");
-
-
- 
   videoStartUpManager();
-  
-  //load helvetica fonts
-  // these fonts are size specific.. 20px
-  // never use these fonts larger than 20px, smaller is ok
-  helv20 = loadFont("Helvetica-20.vlw");
-  helvBold20 = loadFont("Helvetica-Bold-20.vlw");
-
  
 }
 
@@ -120,7 +98,7 @@ void draw() {
   drawCurrentUI();
   // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
   pc.loadPrompt();
-  pc.displayPrompt(width/2,100);
+ // pc.displayPrompt(width/2,100);
 
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
  
@@ -149,7 +127,7 @@ void drawCurrentUI() {
   //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
   //guiText(color(255), guiVisibility, whichVideo);
- // connections.pushToScreen();
+  connections.pushToScreen();
   // full mode
   vizPercent.pushToScreen(100,"full");
   
@@ -164,6 +142,15 @@ void drawCurrentUI() {
 
 
 void keyPressed() {
+
+  if (key=='v') {
+    guiVisibility = !guiVisibility;
+    if (guiVisibility) {
+    //  cp5.show();
+    } else {
+    //  cp5.hide();
+    }
+  }
 
   //switch case state
   if (key=='`') whichVideo='`'; // src video

@@ -29,6 +29,8 @@ class VisualPercent {
     //println( "total: "+ totalCircles );
   
     noStroke();
+    //fixes issue caused by -- pc.displayPrompt(width/2,100);
+    rectMode(CORNER);
     
     if (totalCircles>0) {
       // found the bug! for some reason the lines below need
