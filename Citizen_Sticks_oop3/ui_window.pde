@@ -16,11 +16,7 @@ public class sdUI extends PApplet {
     
     Textarea currPromptTxt;
     Textarea currVisualTxt;
-     
-    
-    
-     
-     
+          
     //initial slider values
     int rHueMin = 0;   int rHueMax = 10;
     int rSatMin = 75; int rSatMax = 255;
@@ -57,7 +53,7 @@ public class sdUI extends PApplet {
   
   
   void settings() {
-     size(770, 470 );
+     size(770, 525 );
     
     //smooth(4);
   }
@@ -112,39 +108,39 @@ void keyPressed() {
   
   
 public void guiText(color c, boolean state, char theCase) {
-  if(state) {
+  //if(state) {
     textAlign(LEFT);
-    pushMatrix();
-    translate(20,30);
-    fill(c);
-    text("fR: "+frameRate,0,0);
-    
+    fill(c);  
     text("HoughCircles params",360,370); //this is the label for the white numberboxes - moved back GB
 
+    pushMatrix();
+    translate(540,280);
+    text("fR: "+this.mainparent.frameRate,0,0);
+    
     switch(theCase) {
       case '`':
-        text("video: SRC", 0,50);
+        text("video: SRC", 0,30);
         break;
       case '1':
-        text("video: R&G&B", 0, 50);
+        text("video: R&G&B", 0, 30);
         break;
       case '2':
-        text("video: RED FILTERED", 0, 50);
+        text("video: RED FILTERED", 0, 30);
         break;
       case '3':
-        text("video: GREEN FILTERED", 0, 50);
+        text("video: GREEN FILTERED", 0, 30);
         break;
       case '4':
-        text("video: BLUE FILTERED", 0, 50);
+        text("video: BLUE FILTERED", 0, 30);
         break;
       case '0':
-        text("video: HIDE", 0, 50);
+        text("video: HIDE", 0, 30);
         break;
     }
     
     popMatrix();
     
-  }
+  //}
 }
 
 //~*~*~*~*~*~*~*~*~ update slider values
@@ -490,8 +486,12 @@ redRangeHue = cp5.addRange("redRangeHue")
    .setDirection(Controller.HORIZONTAL);
      maxSize.getCaptionLabel().toUpperCase(false); 
   
+ /////////////////////////////// Main Prompt Vis Controls 
+  int localx = 20;
+  int localy = 0;
+  
   promptTxt = cp5.addTextarea("promptTxt")
-            .setPosition(500,20)
+            .setPosition(localx+50,localy+20)
             .setSize(200,50)
             .setFont(createFont("arial",22))
             .setColor(color(255))
@@ -503,18 +503,18 @@ redRangeHue = cp5.addRange("redRangeHue")
   // buttons with images for Prompt 
   cp5.addButton("prompt_for")
      .setValue(128)
-     .setPosition(700,20)
+     .setPosition(localx+250,localy+20)
      .setImages(for_imgs)
      .updateSize();
      
   cp5.addButton("prompt_bak")
      .setValue(128)
-     .setPosition(450,20)
+     .setPosition(localx,localy+20)
      .setImages(bak_imgs)
      .updateSize();
          
  visualTxt = cp5.addTextarea("visTxt")
-            .setPosition(500,100)
+            .setPosition(localx+50,localy+100)
             .setSize(200,50)
             .setFont(createFont("arial",22))
             .setColor(color(255))
@@ -526,18 +526,18 @@ redRangeHue = cp5.addRange("redRangeHue")
    // buttons with images for Vis 
   cp5.addButton("vis_for")
      .setValue(128)
-     .setPosition(700,100)
+     .setPosition(localx+250,localy+100)
      .setImages(for_imgs)
      .updateSize() ;
      
   cp5.addButton("vis_bak")
      .setValue(128)
-     .setPosition(450,100)
+     .setPosition(localx,localy+100)
      .setImages(bak_imgs)
      .updateSize();
      
   currPromptTxt = cp5.addTextarea("cPromptTxt")
-        .setPosition(220,20)
+        .setPosition(localx+525,localy+20)
         .setSize(200,50)
         .setFont(createFont("arial",22))
         .setColor(color(255))
@@ -547,33 +547,85 @@ redRangeHue = cp5.addRange("redRangeHue")
   currPromptTxt.setText("The curr Prompt");   
   
    currVisualTxt = cp5.addTextarea("cVisTxt")
-        .setPosition(220,100)
+        .setPosition(localx+525,localy+100)
         .setSize(200,50)
         .setFont(createFont("arial",22))
         .setColor(color(255))
         .setColorBackground(color(80))
         .setColorForeground(color(255));      
-  currVisualTxt.setText("The curr Visual");   
+  currVisualTxt.setText("The curr Visual");  
+  
+  
+  // create a new button with name 'buttonA'
+  cp5.addButton("Load_Prompt")
+     .setValue(100)
+     .setPosition(localx+320,localy+20)
+     .setSize(180,50)
+     .setFont(createFont("arial",22))
+     .setColorBackground(color(0,150,180))
+     .setColorForeground(color(180))
+     ;
+  
+  // and add another 2 buttons
+  cp5.addButton("Load_Vis")
+     .setValue(100)
+     .setPosition(localx+320,localy+100)
+     .setSize(180,50)
+     .setFont(createFont("arial",22))
+     .setColorBackground(color(0,150,180))
+     .setColorForeground(color(180))
+     ;
+     
+   // and add another 2 buttons
+  cp5.addButton("TogglePrompt")
+     .setValue(100)
+     .setPosition(localx+320,localy+180)
+     .setSize(180,50)
+     .setFont(createFont("arial",20))
+     .setColorBackground(color(0,150,180))
+     .setColorForeground(color(180))
+     ;
  
      
 }
 
- public void prompt_for(int theValue) {
-     println("a button event from prompt_for: "+theValue);
-   }
 
- public void prompt_bak(int theValue) {
-     println("a button event from prompt_bak: "+theValue);
-   }
+// Events for promptVisControl
 
+  public void prompt_for(int theValue) {
+     //println("a button event from prompt_for: "+theValue);
+     pc.queBothForward();
+  }
+  
+  public void prompt_bak(int theValue) {
+    // println("a button event from prompt_bak: "+theValue);
+     pc.queBothBack();
+  }
   
   public void vis_for(int theValue) {
-     println("a button event from vis_for: "+theValue);
-   }
+     //println("a button event from vis_for: "+theValue);
+      pc.queVisForward();
+  }
    
   public void vis_bak(int theValue) {
-     println("a button event from vis_bak: "+theValue);
-   }
+     //println("a button event from vis_bak: "+theValue);
+     pc.queVisBack();
+  }
+  
+  public void Load_Prompt(int theValue) {
+     println("a button event from vis_for: Load_Prompt");
+     pc.loadBoth();
+  }
+   
+  public void Load_Vis(int theValue) {
+     println("a button event from vis_bak: Load_Vis");
+     pc.loadVis();
+  }
+  
+   public void TogglePrompt(int theValue) {
+     println("a button event from vis_bak: togglePrompt");
+     pc.togglePrompt();
+  }
 
   
 }  // END OF UI Applet

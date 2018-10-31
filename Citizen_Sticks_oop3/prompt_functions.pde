@@ -2,73 +2,120 @@
 
 /////////////////////////////////////////////////////////////////////////////////// 
    
-  class promptControl{
-    JSONArray values;
-    int quePromptNum =0;
-    int promptNum;
-    int len;
-    String prompt = " ";
-    String currPrompt = " . ";
-    String nextPrompt = " . ";
-    String quePromptStr;
-    String queVisStr;
+  class promptVisControl{
+      JSONArray values;
+      int queBothNum =0;
+    public int bothNum;
+      int queVisNum =0;
+    public int visNum;
+      int len;
+      String prompt = " ";
+      public String currPrompt = "";
+      public String nextPrompt = "";
+      public String currVis = "";
+      public String nextVis = "";    
+      public boolean pvis = true;
     
-    boolean vis = true;
-    
-    promptControl() {      
-      loadJson();      
-    }
-      
-       
-    int queForward() {
-      if (quePromptNum < len-1 ) {
-       quePromptNum++;
-      } else {
-       quePromptNum = 0;
-      }
-      int temp = quePromptNum;
-      return temp;
-    }
+       //Constructor
+      promptVisControl() {      
+        loadJson();  
+        //queBoth(queBothNum);
         
-    int queBack() {
-      
-      if (quePromptNum > 0 ) {
-        quePromptNum--;
-      } else {
-        quePromptNum = len-1;
+      }
+     
+          
+          
+     void queBothForward() {
+        if (queBothNum < len-1 ) {
+         queBothNum++;
+        } else {
+         queBothNum = 0;
+        }
+         queBoth(queBothNum);
+      }
+          
+      void queBothBack() {   
+        if (queBothNum > 0 ) {
+          queBothNum--;
+        } else {
+          queBothNum = len-1;
+        }
+        queBoth(queBothNum);
       }
       
-      int temp = quePromptNum;
-      return temp;
       
-    }
+      void queVisForward() {
+        if (queVisNum < len-1 ) {
+         queVisNum++;
+        } else {
+         queVisNum = 0;
+        }
+         queVis(queVisNum);
+      }
+          
+      void queVisBack() {   
+        if (queVisNum > 0 ) {
+          queVisNum--;
+        } else {
+          queVisNum = len-1;
+        }
+        queVis(queVisNum);
+      }
+    
+    
+          
+      void queBoth(int num) {
+        JSONObject session = values.getJSONObject(num); 
+        queVisNum =num;
+        int id = session.getInt("id");
+         nextPrompt = session.getString("prompt");
+         nextVis = session.getString("visual");
+        println(id + ", QueBoth " + nextPrompt + ", " + nextVis);  
+        objui.promptTxt.setText(nextPrompt);
+        objui.visualTxt.setText(nextVis);
+        //sendPromptVisToUi();      
+      }
       
-      
-      void quePrompt(int num) {
+       void queVis(int num) {
         JSONObject session = values.getJSONObject(num); 
         int id = session.getInt("id");
-        String quePromptStr = session.getString("prompt");
-        String queVisStr = session.getString("visual");
-        println(id + ", " + quePromptStr + ", " + queVisStr);   
-        nextPrompt = quePromptStr;  
-        sendPromptToUi();      
+         nextVis = session.getString("visual");
+        println(id + ", QueVis " + nextVis); 
+        objui.visualTxt.setText(nextVis);
+       
+        //sendVisToUi();      
       }
-      
-      
-      void sendPromptToUi() {
-         // uiObj.UIPrompt = nextPrompt;
-          println("sendPrompt  ==>" + nextPrompt);
+           
+      void sendPromptVisToUi() {
           
+          println("sendPrompt  ==>" + nextPrompt);  
       }
       
-      
-      void loadPrompt() {     
-           currPrompt = nextPrompt;      
+      void sendVisToUi() {
+        // objui.currPromptTxt.setText(nextVis);
+          println("sendPrompt  ==>" + nextVis);   
+      }
+           
+      void loadBoth() {     
+         currPrompt = nextPrompt; 
+         println("loadBoth " + currPrompt);
+         currVis = nextVis;
+         bothNum = queBothNum;
+         visNum = queVisNum;
+         pvis = true;
+         objui.currPromptTxt.setText(currPrompt);
+         objui.currVisualTxt.setText(currVis);
       }
       
-      
-      void showPrompt(boolean state ) {
-         vis = state;
+      void loadVis() {     
+         currVis = nextVis;
+          println("loadVis " + currVis);
+         visNum = queVisNum;
+         objui.currVisualTxt.setText(currVis);
+      }
+         
+      void togglePrompt() {
+         pvis = !pvis;
       }
       
       
@@ -78,9 +125,10 @@
       -- unless explicitly reset to the default rectMode(CORNER)... etc
       */
       void displayPrompt(int x, int y) {
-        if (vis) {       
-         // String currPrompt = "hi";
-        textSize(50);
+        if (pvis) {       
+        //String currPrompt = "hi";
+        noStroke();
+        textSize(60);
         pushMatrix();
         translate(x,y);
         fill(20,30);
@@ -107,8 +155,7 @@
          
         values = loadJSONArray("data/words.json");
         len = values.size();
-          
-          
+                 
         //for (int i = 0; i < len; i++) {
         //  JSONObject session = values.getJSONObject(i); 
         //  //int id = session.getInt("id");

@@ -39,7 +39,7 @@ FrameData gframe;
 OpenCV opencv;
 GBCV gbcv;
 
-promptControl pc;
+promptVisControl pc;
 sdUI objui;  
 
 dataStorage dsRed, dsGreen, dsBlue;
@@ -88,8 +88,8 @@ void videoStartUpManager() {
   textSize(16);
   textLeading(16);
   stroke(255);
-  pc = new  promptControl();
-
+  pc = new  promptVisControl();
+  //pc.loadBoth();
   //frameRate(0.5);
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
@@ -119,7 +119,7 @@ void draw() {
   updateCV();  
   drawCurrentUI();
   // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
-  pc.loadPrompt();
+  
   pc.displayPrompt(width/2,100);
 
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
@@ -146,19 +146,55 @@ void updateCV() {
 void drawCurrentUI() {
 
   gbcv.drawVideo(whichVideo);
+  
+switch(pc.visNum) {
+  
+  case 0: 
+    connections.pushToScreen();
+    break;
+  case 1: 
+    vizPercent.pushToScreen(100,"full");
+    break;
+  case 2: 
+    vizPercent.pushToScreen(100,"stripe");
+    break;
+  case 3:
+    tPanel.pushToScreen();
+    break;
+  case 4:
+    //zzzz.pushToScreen();
+    break;
+  //case 5:
+  //  //zzzz.pushToScreen();
+  //  break;
+  //case 6:
+  //  //zzzz.pushToScreen();
+  //   break;
+  //case 7:
+  //  //zzzz.pushToScreen();
+  //   break;
+  //case 8:
+  //  //zzzz.pushToScreen();
+  //   break;
+  default:             // Default executes if the case labels
+    println("None");   // don't match the switch parameter
+    break;
+}
+  
+  
   //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
   //guiText(color(255), guiVisibility, whichVideo);
  // connections.pushToScreen();
   // full mode
-  vizPercent.pushToScreen(100,"full");
+  ///vizPercent.pushToScreen(100,"full");
   
   // this one is cool, but the problem is that it uses the
   // opacity screen wipe technique, therefore
   // background() and anything reliant on it cannot also be used
   //vizPercent.pushToScreen(255,"stripes");
  
-  tPanel.pushToScreen();
+  
  
 }
 
