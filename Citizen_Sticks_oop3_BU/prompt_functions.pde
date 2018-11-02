@@ -125,26 +125,23 @@
       -- unless explicitly reset to the default rectMode(CORNER)... etc
       */
       void displayPrompt(int x, int y) {
-        
-       if (currPrompt != "Blank") { 
         if (pvis) {       
-          //String currPrompt = "hi";
-          noStroke();
-          textSize(60);
-          pushMatrix();
-          translate(x,y);
-          fill(20,30);
-          rectMode(CENTER);
-         // rect(0,0,500,100);
-          rectMode(LEFT);
-          fill(255);
-          textAlign(CENTER);
-          text(currPrompt,0,15); 
-          //text("",0,15);
-          textAlign(LEFT);
-          popMatrix();        
+        //String currPrompt = "hi";
+        noStroke();
+        textSize(60);
+        pushMatrix();
+        translate(x,y);
+        fill(20,30);
+        rectMode(CENTER);
+        rect(0,0,500,100);
+        rectMode(LEFT);
+        fill(255);
+        textAlign(CENTER);
+        text(currPrompt,0,15); 
+        //text("",0,15);
+        textAlign(LEFT);
+        popMatrix();        
         }
-       }
       }
       
       

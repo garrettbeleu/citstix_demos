@@ -1,6 +1,7 @@
 // openCV for Processing Lib and Processing Video Lib
 import gab.opencv.*;
 import processing.video.*;
+import toxi.geom.*;
 
 //opencv modules
 import org.opencv.core.Core;
@@ -21,7 +22,7 @@ import controlP5.*;
 
 //Start Globals
 // FS true sets the screen to full
-boolean fs = false;
+boolean fs = true;
 char whichVideo = '`';
 boolean guiVisibility = true;
 
@@ -46,6 +47,8 @@ dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(0,0);
 
 Connections connections;
+Puddle puddles;
+
 VisualPercent vizPercent;
 ArrayList<Particle> particles;
 
@@ -69,7 +72,9 @@ void setup() {
   bak_imgs[0] = loadImage("ba_button_a.png");
   bak_imgs[1] = loadImage("ba_button_b.png");
   bak_imgs[2] = loadImage("ba_button_c.png");
-
+  
+  
+  //frameRate(1);
 
  
   videoStartUpManager();
@@ -93,9 +98,9 @@ void videoStartUpManager() {
   //frameRate(0.5);
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
-  inputVideo = new VideoSource(video,this,"test2.mp4");
+  //inputVideo = new VideoSource(video,this,"test2.mp4");
   // //...camera input source
-  //inputVideo = new VideoSource(cap, this, 1280, 720); 
+  inputVideo = new VideoSource(cap, this, 1280, 720); 
   
   opencv.useColor(HSB);// set cv colorspace to HSB for filtering
   
@@ -107,12 +112,14 @@ void videoStartUpManager() {
   connections  = new Connections();
   vizPercent = new VisualPercent();
   particles = new ArrayList<Particle>();
+  puddles  = new Puddle();
+ 
  
   //loadGUI(); // need this to create all those cp5 gui widgets
 }
 
 void draw() {
-  background(0);
+ 
   
   inputVideo.loadFrames();
   
@@ -146,38 +153,53 @@ void updateCV() {
 
 void drawCurrentUI() {
 
-  gbcv.drawVideo(whichVideo);
+ 
   
 switch(pc.visNum) {
   
-  case 0: 
+  case 0: //Particle
+    // BT transiton
+    background(20); 
+    gbcv.drawVideo(whichVideo);
+  break; 
+  case 1:  //connect
+    background(20);   
+    gbcv.drawVideo(whichVideo);
     connections.pushToScreen();
     break;
-  case 1: 
+  case 2: //VizPerFull
+    background(20); 
+    gbcv.drawVideo(whichVideo);
     vizPercent.pushToScreen(100,"full");
     break;
-  case 2: 
-    //this one needs a way to turn of background()
-    //maybe only use background in every case that needs it - just a note for the futre
-    background(0,0,0,0); //background with alpha does not work
+  case 3:  //VizPerStripe
+    gbcv.drawVideo(whichVideo);
     vizPercent.pushToScreen(100,"stripes");
     break;
-  case 3:
+  case 4: //tPanel
+    background(20);
+    gbcv.drawVideo(whichVideo);
     tPanel.pushToScreen();
     break;
-  case 4:
+  case 5: //Particle
+  background(20);
+    gbcv.drawVideo(whichVideo);
     doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
     break;
-  //case 5:
-  //  //zzzz.pushToScreen();
+  case 6:
+  background(20); 
+   gbcv.drawVideo(whichVideo);
+   puddles.pushToScreen();
+   break;
+  //zzzz.pushToScreen();
   //  break;
-  //case 6:
-  //  //zzzz.pushToScreen();
-  //   break;
-  //case 7:
+   //case 7:
   //  //zzzz.pushToScreen();
   //   break;
   //case 8:
+  //  //zzzz.pushToScreen();
+  //   break;
+    case 9:  //Black Transition
   //  //zzzz.pushToScreen();
   //   break;
   default:             // Default executes if the case labels
