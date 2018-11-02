@@ -1,0 +1,37 @@
+[
+  {
+    "visual": "connections",
+    "id": 0,
+    "prompt": "Demo Phrase1"
+  },
+  {
+    "visual": "connections",
+    "id": 1,
+    "prompt": "Demo Phrase2"
+  },
+  {
+    "visual": "connections",
+    "id": 2,
+    "prompt": "Trans-Disciplinary"
+  },
+  {
+    "visual": "vizPercentFull",
+    "id": 3,
+    "prompt": "Post-Internet"
+  },
+  {
+    "visual": "vizPercentStripe",
+    "id": 4,
+    "prompt": "Agency"
+  },
+  {
+    "visual": "tPanel",
+    "id": 5,
+    "prompt": "Proliferation"
+  },
+  {
+    "visual": "dual",
+    "id": 6,
+    "prompt": "Sacred"
+  }
+]

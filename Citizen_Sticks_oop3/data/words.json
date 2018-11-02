@@ -9,54 +9,33 @@
     "id": 1,
     "prompt": "Trans-Disciplinary"
   },
-  {
-    "visual": "BT",
-    "id": 2,
-    "prompt": "Blank"
-  },
+
   {
     "visual": "VizPerStripe",
-    "id": 3,
+    "id": 2,
     "prompt": "Post-Internet"
   },
   {
-    "visual": "BT",
-    "id": 4,
-    "prompt": "Blank"
-  },
-  {
     "visual": "VizPerFull",
-    "id": 5,
+    "id": 3,
     "prompt": "Agency"
   },
-  {
-    "visual": "BT",
-    "id": 6,
-    "prompt": "Blank"
-  },
+
   {
     "visual": "Tpanel",
-    "id": 7,
+    "id": 4,
     "prompt": "Proliferation"
   },
-  {
-    "visual": "BT",
-    "id": 8,
-    "prompt": "Blank"
-  },
+
   {
     "visual": "Puddle",
-    "id": 9,
+    "id": 5,
     "prompt": "Sacred"
   },
-  {
-    "visual": "BT",
-    "id": 10,
-    "prompt": "Blank"
-  },
+
   {
     "visual": "Particle",
-    "id": 11,
+    "id": 6,
     "prompt": "Sacred"
   }
 ]

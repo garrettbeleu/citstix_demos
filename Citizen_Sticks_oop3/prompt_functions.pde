@@ -126,7 +126,7 @@
       */
       void displayPrompt(int x, int y) {
         
-       if (currPrompt != "Blank") { 
+      // if (currPrompt != "Blank") { 
         if (pvis) {       
           //String currPrompt = "hi";
           noStroke();
@@ -144,7 +144,7 @@
           textAlign(LEFT);
           popMatrix();        
         }
-       }
+     //  }
       }
       
       

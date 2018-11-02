@@ -98,9 +98,9 @@ void videoStartUpManager() {
   //frameRate(0.5);
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
-  //inputVideo = new VideoSource(video,this,"test2.mp4");
+  inputVideo = new VideoSource(video,this,"test2.mp4");
   // //...camera input source
-  inputVideo = new VideoSource(cap, this, 1280, 720); 
+  //inputVideo = new VideoSource(cap, this, 1280, 720); 
   
   opencv.useColor(HSB);// set cv colorspace to HSB for filtering
   
@@ -173,7 +173,7 @@ switch(pc.visNum) {
     vizPercent.pushToScreen(100,"full");
     break;
   case 3:  //VizPerStripe
-    gbcv.drawVideo(whichVideo);
+    //gbcv.drawVideo(whichVideo);
     vizPercent.pushToScreen(100,"stripes");
     break;
   case 4: //tPanel
@@ -181,17 +181,17 @@ switch(pc.visNum) {
     gbcv.drawVideo(whichVideo);
     tPanel.pushToScreen();
     break;
-  case 5: //Particle
+  case 5:
+   background(20); 
+   gbcv.drawVideo(whichVideo);
+   puddles.pushToScreen();
+   break;
+  case 6: //Particle
   background(20);
     gbcv.drawVideo(whichVideo);
     doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
     break;
-  case 6:
-  background(20); 
-   gbcv.drawVideo(whichVideo);
-   puddles.pushToScreen();
-   break;
-  //zzzz.pushToScreen();
+   //zzzz.pushToScreen();
   //  break;
    //case 7:
   //  //zzzz.pushToScreen();
