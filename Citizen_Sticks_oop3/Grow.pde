@@ -2,11 +2,12 @@
 
 class Grow {
 
-  ArrayList blockCollectionR;
-  ArrayList blockCollectionG;
-  ArrayList blockCollectionB;
+  ArrayList<Block> blockCollectionR;
+  ArrayList<Block> blockCollectionG;
+  ArrayList<Block> blockCollectionB;
+  
   int counter = 0;
-
+  int gridSize = 30;
   //constructor
   Grow() {  
     blockCollectionR = new ArrayList();
@@ -14,57 +15,85 @@ class Grow {
     blockCollectionB = new ArrayList();
   }
 
-  void blockGrowth(float[][] inputArray, color k, ArrayList collection) {
+  void blockGrowthMaster(float[][] ar, float[][] ag, float[][] ab, color kr, color kg,color kb, ArrayList cr,ArrayList cg,ArrayList cb) {
 
-       if (inputArray.length>1) {
-
-        for (int i=0; i<inputArray.length; i++) {
-
-         // Vec3D origin =  new Vec3D(random(width), random(200), 0);  
-          
-          Vec3D origin =  new Vec3D(inputArray[i][0],inputArray[i][1], 0); 
-          Block curB =  new Block(origin, this, collection, k); 
-          collection.add(curB);
-          
-          //curOrb.run();
-        }
-
-        for (int i = collection.size() - 1; i >= 0; i--) {
-          
-          Block curB = (Block) collection.get(i);
-          
+      // if (inputArray.length>0) {
+             
+        for (int i=0; i<ar.length; i++) {                                                    
+                Vec3D origin =  new Vec3D(int(ar[i][0]/gridSize)*gridSize, int(ar[i][1]/gridSize)*gridSize, 0);  
+                Block curB =  new Block(origin, this, cr, kr); 
+                cr.add(curB);           
+            }
+                 
+        for (int i = cr.size() - 1; i >= 0; i--) {            
+          Block curB = (Block) cr.get(i);            
           if (curB.finished()) {
-            collection.remove(i);
+            cr.remove(i);
           }
         }
 
+        for (int i = 0; i < cr.size(); i++) {
+                 Block newB = (Block) cr.get(i);
+                 newB.run(); 
+        }
+        
+       //////////////////
 
-       //println("--" + collection.size());
+          for (int i=0; i<ag.length; i++) {                                                    
+                Vec3D origin =  new Vec3D(int(ag[i][0]/gridSize)*gridSize, int(ag[i][1]/gridSize)*gridSize, 0);  
+                Block curB =  new Block(origin, this, cg, kg); 
+                cg.add(curB);           
+            }
+                 
+          for (int i = cg.size() - 1; i >= 0; i--) {            
+            Block curB = (Block) cg.get(i);            
+            if (curB.finished()) {
+              cg.remove(i);
+            }
+          }
 
-        //if (collection.size() > 30 ) {
-        //  for (int i=0; i<inputArray.length; i++) {
-        //    println("woot");
-        //    collection.remove(i);
-        //  }
-        //}
-
-
-        for ( int i = 0; i < collection.size(); i++) {
-            Block newB = (Block) collection.get(i);
+      
+        for (int i = 0; i < cg.size(); i++) {
+           Block newB = (Block) cg.get(i);
            newB.run(); 
         }
-      }
+        
+        ////////////////////////////
+           for (int i=0; i<ab.length; i++) {                                                    
+                Vec3D origin =  new Vec3D(int(ab[i][0]/gridSize)*gridSize, int(ab[i][1]/gridSize)*gridSize, 0);  
+                Block curB =  new Block(origin, this, cb, kb); 
+                cb.add(curB);           
+            }
+                 
+          for (int i = cb.size() - 1; i >= 0; i--) {            
+            Block curB = (Block) cb.get(i);            
+            if (curB.finished()) {
+              cb.remove(i);
+            }
+          }
+
+      
+        for (int i = 0; i < cb.size(); i++) {
+           Block newB = (Block) cb.get(i);
+           newB.run(); 
+        }
+
+  
+           
+           
+           
+           
     
   }
 
 
 
   void pushToScreen() {
-    // strokeWeight(3);
+    //strokeWeight(3);
+    rectMode(CORNER);
     noFill();
-    blockGrowth(dsRed.data,   color(255,0,0,5), blockCollectionR);
-    blockGrowth(dsGreen.data, color(0,255,0,5), blockCollectionG);
-    blockGrowth(dsBlue.data,  color(0,0,255,5), blockCollectionB);
+    blockGrowthMaster(dsRed.data, dsGreen.data, dsBlue.data, color(255,0,0,9),color(0,255,0,9),color(0,0,255,9),
+    blockCollectionR, blockCollectionG, blockCollectionB);
   }
   
   
@@ -80,14 +109,15 @@ class Block {
   //var available for the whole class
   float x = 0;
   float y = 0; 
-  float speedX = random(-2.2);
-  float speedY = random(-2.2);
+  float speedX = 0; //random(-2.2);
+  float speedY = 0; // random(-2.2);
   Grow p;
   ArrayList c;
   color k;
-  int life = 50;
+  int life = 80;
 
   Vec3D loc =   new Vec3D(0, 0, 0);
+ // Vec3D speed = new Vec3D(random(-2, 2), random(-2, 2), 0);
   Vec3D speed = new Vec3D(random(-2, 2), random(-2, 2), 0);
   Vec3D grav =  new Vec3D(0, 0.2, 0);
   Vec3D acc = new Vec3D();
@@ -98,17 +128,18 @@ class Block {
     p = _p;
     c = _c;
     k = _k;
+    
   } 
 
   void run() {
 
     display();
-    move();
+    //move();
     bounce();
-    //gravity();
+   // gravity();
     lineBetween();
 
-    flock();
+    //flock();
   }
 
 
@@ -154,7 +185,7 @@ class Block {
       Block other = (Block) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
-      if ( distance > 0 && distance < 60) {
+      if ( distance > 0 && distance < 40) {
         sum.addSelf(other.loc);
         count++;
       }
@@ -213,17 +244,21 @@ class Block {
 
       float distance = loc.distanceTo(other.loc);
 
-      if ( distance > 0 && distance < 40) {
+      if ( distance > 60 && distance < 80) {
         //strokeWeight(40/distance);
+        rectMode(CENTER);
         fill(k);
-        rect(loc.x, loc.y, other.loc.x, other.loc.y);
+        rect(loc.x, loc.y, 15,15,3);
       }
     }
   }
 
   void display() { 
-    fill(k);
-    rect(loc.x, loc.y, loc.z, loc.z);
+  
+        rectMode(CENTER);
+        fill(k);
+        stroke(k);
+        rect(loc.x, loc.y, 30,30,6); 
   } 
   void move() {
 

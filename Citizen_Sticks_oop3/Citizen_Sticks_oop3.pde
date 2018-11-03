@@ -206,12 +206,12 @@ switch(pc.visNum) {
     break;
   case 4: //growth
     background(20);
-    pushMatrix();
-    scale(-1,1);
-    translate(-width, 0);
+    //pushMatrix();
+    //scale(-1,1);
+    //translate(-width, 0);
     vidMimic.pushToScreen(255);
+   // popMatrix(); 
     growth.pushToScreen();
-    popMatrix(); 
     break;
   case 5: //Puddles
     background(20); 
