@@ -3,12 +3,13 @@
 /////////////////////////////////////////////////////////////////////////////////// 
    
   class promptVisControl{
-      JSONArray values;
+      JSONArray jwords,jvis;
+     // JSONArray values;
       int queBothNum =0;
-    public int bothNum;
+      public int bothNum;
       int queVisNum =0;
-    public int visNum;
-      int len;
+      public int visNum;
+      int wlen,vlen;
       String prompt = " ";
       public String currPrompt = "";
       public String nextPrompt = "";
@@ -26,7 +27,7 @@
           
           
      void queBothForward() {
-        if (queBothNum < len-1 ) {
+        if (queBothNum < wlen-1 ) {
          queBothNum++;
         } else {
          queBothNum = 0;
@@ -38,14 +39,14 @@
         if (queBothNum > 0 ) {
           queBothNum--;
         } else {
-          queBothNum = len-1;
+          queBothNum = wlen-1;
         }
         queBoth(queBothNum);
       }
       
       
       void queVisForward() {
-        if (queVisNum < len-1 ) {
+        if (queVisNum < vlen-1 ) {
          queVisNum++;
         } else {
          queVisNum = 0;
@@ -57,7 +58,7 @@
         if (queVisNum > 0 ) {
           queVisNum--;
         } else {
-          queVisNum = len-1;
+          queVisNum = vlen-1;
         }
         queVis(queVisNum);
       }
@@ -65,19 +66,19 @@
     
           
       void queBoth(int num) {
-        JSONObject session = values.getJSONObject(num); 
+        JSONObject session = jwords.getJSONObject(num); 
         queVisNum =num;
         int id = session.getInt("id");
          nextPrompt = session.getString("prompt");
          nextVis = session.getString("visual");
         println(id + ", QueBoth " + nextPrompt + ", " + nextVis);  
-        objui.promptTxt.setText(nextPrompt);
+        objui.promptTxt.setText(nextPrompt + "\n" + nextVis);
         objui.visualTxt.setText(nextVis);
         //sendPromptVisToUi();      
       }
       
        void queVis(int num) {
-        JSONObject session = values.getJSONObject(num); 
+        JSONObject session = jvis.getJSONObject(num); 
         int id = session.getInt("id");
          nextVis = session.getString("visual");
         println(id + ", QueVis " + nextVis); 
@@ -147,6 +148,8 @@
           popMatrix();        
         }
      //  }
+     
+       //println("OO --" + opacity);
       }
       
       
@@ -157,37 +160,18 @@
      
     
        void loadJson() {
-         
-        values = loadJSONArray("data/words.json");
-        len = values.size();
-                 
-        //for (int i = 0; i < len; i++) {
-        //  JSONObject session = values.getJSONObject(i); 
-        //  //int id = session.getInt("id");
-        //  //String prompt = session.getString("prompt");
-        //  //String vis = session.getString("visual");
-        //  //println(id + ", " + prompt + ", " + vis);
-        //}
-      }
+        jwords = loadJSONArray("data/words.json");
+        wlen = jwords.size();      
+        jvis = loadJSONArray("data/vis.json");
+        vlen = jwords.size();
         
-      void saveJason() {
-         // default start for format
-        //String[] prompts = {"Demo Phrase1","Demo Phrase2", "Trans-Disciplinary","Post-Internet","Agency", "Proliferation", "Sacred" };
-        //String[] visuals = { "loops", "graph", "basic","loops", "chart", "basic","final" };
+       // println("Hey -----" + jvis);
       
-        //values = new JSONArray();
-      
-        //for (int i = 0; i < prompts.length; i++) {
-      
-        //  JSONObject session = new JSONObject();
-        //  session.setInt("id", i);
-        //  session.setString("prompt", prompts[i]);
-        //  session.setString("visual", visuals[i]);
-      
-        //  values.setJSONObject(i, session);
-        //}
-      
-        saveJSONArray(values, "data/words.json");
+       }
+        
+      void saveJason() {         
+         saveJSONArray(jwords, "data/words.json");
+         saveJSONArray(jvis, "data/vis.json");
                
       }
            

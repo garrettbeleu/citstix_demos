@@ -54,6 +54,7 @@ TextPanel tPanel = new TextPanel(0,0);
 
 Connections connections;
 Puddle puddles;
+Grow growth;
 
 VisualPercent vizPercent;
 ArrayList<Particle> particles;
@@ -121,6 +122,7 @@ void videoStartUpManager() {
   vizPercent = new VisualPercent();
   particles = new ArrayList<Particle>();
   puddles  = new Puddle();
+  growth = new Grow();
   blackTranny = new BlackFade(width,height);
   vidMimic = new VidMimic();
  
@@ -166,14 +168,14 @@ void drawCurrentUI() {
   
 switch(pc.visNum) {
   
-  case 0: //Particle
-    // BT transiton
+  case 0: //BT
     //background(20); 
     //gbcv.drawVideo(whichVideo);
     blackTranny.fadeOut(); // move this, idk where - GB*****
   break; 
   case 1:  //connect
-    blackTranny.reset(); // reset opacity values before each routine, maybe just once though
+     // moved reset to the loadprompt so it will trigger once
+    //blackTranny.reset(); // reset opacity values before each routine, maybe just once though
     background(20);
     pushMatrix();
     scale(-1,1);
@@ -201,16 +203,17 @@ switch(pc.visNum) {
     popMatrix();
     vizPercent.pushToScreen(100,"stripes");
     break;
-  case 4: //tPanel
+  case 4: //growth
     background(20);
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-      gbcv.drawVideo(whichVideo);
+    vidMimic.pushToScreen(255);
+   // gbcv.drawVideo(whichVideo);
     popMatrix();
-    tPanel.pushToScreen();
+    growth.pushToScreen();
     break;
-  case 5:
+  case 5: //Puddles
     background(20); 
     //gbcv.drawVideo(whichVideo);
     pushMatrix();

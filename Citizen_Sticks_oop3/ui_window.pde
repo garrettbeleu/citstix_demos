@@ -500,7 +500,7 @@ redRangeHue = cp5.addRange("redRangeHue")
   
   promptTxt = cp5.addTextarea("promptTxt")
             .setPosition(localx+50,localy+20)
-            .setSize(200,50)
+            .setSize(210,50)
             .setFont(createFont("arial",22))
             .setColor(color(255))
             .setColorBackground(color(80))
@@ -510,20 +510,18 @@ redRangeHue = cp5.addRange("redRangeHue")
           
   // buttons with images for Prompt 
   cp5.addButton("prompt_for")
-     .setValue(128)
-     .setPosition(localx+250,localy+20)
+     .setPosition(localx+260,localy+20)
      .setImages(for_imgs)
      .updateSize();
      
   cp5.addButton("prompt_bak")
-     .setValue(128)
      .setPosition(localx,localy+20)
      .setImages(bak_imgs)
      .updateSize();
          
  visualTxt = cp5.addTextarea("visTxt")
             .setPosition(localx+50,localy+100)
-            .setSize(200,50)
+            .setSize(210,50)
             .setFont(createFont("arial",22))
             .setColor(color(255))
             .setColorBackground(color(80))
@@ -533,13 +531,11 @@ redRangeHue = cp5.addRange("redRangeHue")
   
    // buttons with images for Vis 
   cp5.addButton("vis_for")
-     .setValue(128)
-     .setPosition(localx+250,localy+100)
+     .setPosition(localx+260,localy+100)
      .setImages(for_imgs)
      .updateSize() ;
      
   cp5.addButton("vis_bak")
-     .setValue(128)
      .setPosition(localx,localy+100)
      .setImages(bak_imgs)
      .updateSize();
@@ -566,7 +562,6 @@ redRangeHue = cp5.addRange("redRangeHue")
   
   // create a new button with name 'buttonA'
   cp5.addButton("Load_Prompt")
-     .setValue(100)
      .setPosition(localx+320,localy+20)
      .setSize(180,50)
      .setFont(createFont("arial",22))
@@ -576,7 +571,6 @@ redRangeHue = cp5.addRange("redRangeHue")
   
   // and add another 2 buttons
   cp5.addButton("Load_Vis")
-     .setValue(100)
      .setPosition(localx+320,localy+100)
      .setSize(180,50)
      .setFont(createFont("arial",22))
@@ -586,7 +580,6 @@ redRangeHue = cp5.addRange("redRangeHue")
      
    // and add another 2 buttons
   cp5.addButton("TogglePrompt")
-     .setValue(100)
      .setPosition(localx+320,localy+180)
      .setSize(180,50)
      .setFont(createFont("arial",20))
@@ -594,46 +587,65 @@ redRangeHue = cp5.addRange("redRangeHue")
      .setColorForeground(color(180))
      ;
  
+ 
+  // and add another 2 buttons
+  cp5.addButton("BlackTrans")
+     .setPosition(localx+100,localy+180)
+     .setSize(180,50)
+     .setFont(createFont("arial",20))
+     .setColorBackground(color(0,150,180))
+     .setColorForeground(color(180))
+     ;
+
      
 }
 
 
 // Events for promptVisControl
 
-  public void prompt_for(int theValue) {
+  public void prompt_for() {
      //println("a button event from prompt_for: "+theValue);
      pc.queBothForward();
   }
   
-  public void prompt_bak(int theValue) {
+  public void prompt_bak() {
     // println("a button event from prompt_bak: "+theValue);
      pc.queBothBack();
   }
   
-  public void vis_for(int theValue) {
+  public void vis_for() {
      //println("a button event from vis_for: "+theValue);
       pc.queVisForward();
   }
    
-  public void vis_bak(int theValue) {
+  public void vis_bak() {
      //println("a button event from vis_bak: "+theValue);
      pc.queVisBack();
   }
   
-  public void Load_Prompt(int theValue) {
+  public void Load_Prompt() {
      println("a button event from vis_for: Load_Prompt");
+     blackTranny.reset(); 
      pc.loadBoth();
   }
    
-  public void Load_Vis(int theValue) {
+  public void Load_Vis() {
      println("a button event from vis_bak: Load_Vis");
+     blackTranny.reset(); 
      pc.loadVis();
   }
   
-   public void TogglePrompt(int theValue) {
+   public void TogglePrompt() {
      println("a button event from vis_bak: togglePrompt");
      pc.togglePrompt();
   }
+
+  public void BlackTrans() {
+    // put the vis ID here
+    println("bt");
+    pc.visNum = 0;
+  }
+
 
   
 }  // END OF UI Applet

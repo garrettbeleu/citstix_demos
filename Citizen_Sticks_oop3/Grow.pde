@@ -1,42 +1,39 @@
 
-class Puddle {
 
-  ArrayList orbCollectionR;
-  ArrayList orbCollectionG;
-  ArrayList orbCollectionB;
+class Grow {
+
+  ArrayList blockCollectionR;
+  ArrayList blockCollectionG;
+  ArrayList blockCollectionB;
   int counter = 0;
 
-
   //constructor
-  Puddle() {  
-    orbCollectionR = new ArrayList();
-    orbCollectionG = new ArrayList();
-    orbCollectionB = new ArrayList();
+  Grow() {  
+    blockCollectionR = new ArrayList();
+    blockCollectionG = new ArrayList();
+    blockCollectionB = new ArrayList();
   }
 
-  void drawPuddles(float[][] inputArray, Mat circleMatrix, color k, ArrayList collection) {
+  void blockGrowth(float[][] inputArray, color k, ArrayList collection) {
 
-    if ( circleMatrix.rows()>0) {
-      //stroke(k);      
-      // make sure there is some balls
-      if (inputArray.length>1) {
+       if (inputArray.length>1) {
 
         for (int i=0; i<inputArray.length; i++) {
 
          // Vec3D origin =  new Vec3D(random(width), random(200), 0);  
           
           Vec3D origin =  new Vec3D(inputArray[i][0],inputArray[i][1], 0); 
-          Orb curOrb =  new Orb(origin, this, collection, k); 
-          collection.add(curOrb);
+          Block curB =  new Block(origin, this, collection, k); 
+          collection.add(curB);
           
           //curOrb.run();
         }
 
         for (int i = collection.size() - 1; i >= 0; i--) {
           
-          Orb curOrb = (Orb) collection.get(i);
+          Block curB = (Block) collection.get(i);
           
-          if (curOrb.finished()) {
+          if (curB.finished()) {
             collection.remove(i);
           }
         }
@@ -53,11 +50,11 @@ class Puddle {
 
 
         for ( int i = 0; i < collection.size(); i++) {
-           Orb newOrb = (Orb) collection.get(i);
-           newOrb.run(); 
+            Block newB = (Block) collection.get(i);
+           newB.run(); 
         }
       }
-    }
+    
   }
 
 
@@ -65,10 +62,12 @@ class Puddle {
   void pushToScreen() {
     // strokeWeight(3);
     noFill();
-    drawPuddles(dsRed.data, gbcv.circlesRed, color(255,0,0,90), orbCollectionR);
-    drawPuddles(dsGreen.data, gbcv.circlesGreen, color(0,255,0,90), orbCollectionG);
-    drawPuddles(dsBlue.data, gbcv.circlesBlue, color(0,0,255,90), orbCollectionB);
+    blockGrowth(dsRed.data,   color(255,0,0,5), blockCollectionR);
+    blockGrowth(dsGreen.data, color(0,255,0,5), blockCollectionG);
+    blockGrowth(dsBlue.data,  color(0,0,255,5), blockCollectionB);
   }
+  
+  
 }
 
 ////////////// END OF CLASS PUDDLE ////////////////
@@ -77,13 +76,13 @@ class Puddle {
 ////////////////////////////////// Begin Orb  //////////////////
 
 
-class Orb { 
+class Block { 
   //var available for the whole class
   float x = 0;
   float y = 0; 
   float speedX = random(-2.2);
   float speedY = random(-2.2);
-  Puddle p;
+  Grow p;
   ArrayList c;
   color k;
   int life = 50;
@@ -93,9 +92,8 @@ class Orb {
   Vec3D grav =  new Vec3D(0, 0.2, 0);
   Vec3D acc = new Vec3D();
 
-
   //Constructor
-  Orb (Vec3D _loc, Puddle _p, ArrayList _c, color _k) {  
+  Block (Vec3D _loc, Grow _p, ArrayList _c, color _k) {  
     loc = _loc;
     p = _p;
     c = _c;
@@ -104,7 +102,7 @@ class Orb {
 
   void run() {
 
-    //display();
+    display();
     move();
     bounce();
     //gravity();
@@ -128,7 +126,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Block other = (Block) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 40) {
@@ -153,7 +151,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Block other = (Block) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 60) {
@@ -180,7 +178,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Block other = (Block) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 40) {
@@ -211,20 +209,21 @@ class Orb {
 
     for (int i = 0; i < c.size(); i++ ) {
 
-      Orb other = (Orb) c.get(i);
+      Block other = (Block) c.get(i);
 
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 40) {
-        strokeWeight(40/distance);
-        stroke(k);
-        line(loc.x, loc.y, other.loc.x, other.loc.y);
+        //strokeWeight(40/distance);
+        fill(k);
+        rect(loc.x, loc.y, other.loc.x, other.loc.y);
       }
     }
   }
 
   void display() { 
-    ellipse(loc.x, loc.y, 10, 10);
+    fill(k);
+    rect(loc.x, loc.y, loc.z, loc.z);
   } 
   void move() {
 
