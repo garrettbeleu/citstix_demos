@@ -100,7 +100,7 @@ class VisualPercent {
       // draw opacity over the screen
       fill(0,0,0,20);
       rect(0,0,width,height);
-      if( h>720-stripesHeight) {
+      if( h>height-stripesHeight) {
         // reset vertical position counter
         h=0;
       }

@@ -124,7 +124,9 @@
       -- will influence any other drawings that follow it
       -- unless explicitly reset to the default rectMode(CORNER)... etc
       */
-      void displayPrompt(int x, int y) {
+      void displayPrompt(int x, int y, int opacity) {
+        //the font to use
+        textFont(helvBold60,60);
         
       // if (currPrompt != "Blank") { 
         if (pvis) {       
@@ -137,7 +139,7 @@
           rectMode(CENTER);
          // rect(0,0,500,100);
           rectMode(LEFT);
-          fill(255);
+          fill(255,opacity);
           textAlign(CENTER);
           text(currPrompt,0,15); 
           //text("",0,15);

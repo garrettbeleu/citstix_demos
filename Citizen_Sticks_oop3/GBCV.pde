@@ -101,7 +101,7 @@ class GBCV {
           }
         }        
     }else{
-      //empty but not null?
+      //empty but not null - *important*
       theData.data = new float[0][0];
     }
   }
