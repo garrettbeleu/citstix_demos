@@ -170,19 +170,15 @@ switch(pc.visNum) {
   
   case 0: //BT
     //background(20); 
-    //gbcv.drawVideo(whichVideo);
     blackTranny.fadeOut(); // move this, idk where - GB*****
   break; 
   case 1:  //connect
-     // moved reset to the loadprompt so it will trigger once
-    //blackTranny.reset(); // reset opacity values before each routine, maybe just once though
-    background(20);
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-      vidMimic.pushToScreen(255);
-      //gbcv.drawVideo(whichVideo);
-      connections.pushToScreen();
+    background(20); 
+    vidMimic.pushToScreen(255);
+    connections.pushToScreen();
     popMatrix();
     break;
   case 2: //VizPerFull
@@ -190,8 +186,8 @@ switch(pc.visNum) {
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-      //gbcv.drawVideo(whichVideo);
-      vidMimic.pushToScreen(255);
+    //gbcv.drawVideo(whichVideo);
+    vidMimic.pushToScreen(255);
     popMatrix();
     vizPercent.pushToScreen(100,"full");
     break;
@@ -199,7 +195,7 @@ switch(pc.visNum) {
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-      vidMimic.pushToScreen(5);
+    vidMimic.pushToScreen(5);
     popMatrix();
     vizPercent.pushToScreen(100,"stripes");
     break;
@@ -209,9 +205,8 @@ switch(pc.visNum) {
     scale(-1,1);
     translate(-width, 0);
     vidMimic.pushToScreen(255);
-   // gbcv.drawVideo(whichVideo);
-    popMatrix();
     growth.pushToScreen();
+    popMatrix(); 
     break;
   case 5: //Puddles
     background(20); 
@@ -233,7 +228,13 @@ switch(pc.visNum) {
       doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
     popMatrix();
     break;
-   //zzzz.pushToScreen();
+  case 7://Video
+    background(20);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);   
+    gbcv.drawVideo(whichVideo);
+    popMatrix();
   //  break;
    //case 7:
   //  //zzzz.pushToScreen();
@@ -245,7 +246,7 @@ switch(pc.visNum) {
   //  //zzzz.pushToScreen();
   //   break;
   default:             // Default executes if the case labels
-    println("None");   // don't match the switch parameter
+   // println("None");   // don't match the switch parameter
     break;
 }
   

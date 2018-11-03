@@ -163,9 +163,9 @@
         jwords = loadJSONArray("data/words.json");
         wlen = jwords.size();      
         jvis = loadJSONArray("data/vis.json");
-        vlen = jwords.size();
+        vlen = jvis.size();
         
-       // println("Hey -----" + jvis);
+    //   println("Hey -----" + vlen);
       
        }
         

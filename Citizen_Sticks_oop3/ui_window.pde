@@ -580,22 +580,32 @@ redRangeHue = cp5.addRange("redRangeHue")
      
    // and add another 2 buttons
   cp5.addButton("TogglePrompt")
-     .setPosition(localx+320,localy+180)
+     .setPosition(localx+530,localy+180)
      .setSize(180,50)
      .setFont(createFont("arial",20))
      .setColorBackground(color(0,150,180))
      .setColorForeground(color(180))
      ;
  
- 
-  // and add another 2 buttons
   cp5.addButton("BlackTrans")
-     .setPosition(localx+100,localy+180)
+     .setPosition(localx+20,localy+180)
      .setSize(180,50)
      .setFont(createFont("arial",20))
      .setColorBackground(color(0,150,180))
      .setColorForeground(color(180))
      ;
+
+  
+  cp5.addButton("videoOnly")
+     .setPosition(localx+270,localy+180)
+     .setSize(180,50)
+     .setFont(createFont("arial",20))
+     .setColorBackground(color(0,150,180))
+     .setColorForeground(color(180))
+     ;
+     
+     
+  
 
      
 }
@@ -624,20 +634,26 @@ redRangeHue = cp5.addRange("redRangeHue")
   }
   
   public void Load_Prompt() {
-     println("a button event from vis_for: Load_Prompt");
+     println("btn event: Load_Prompt");
      blackTranny.reset(); 
      pc.loadBoth();
   }
    
   public void Load_Vis() {
-     println("a button event from vis_bak: Load_Vis");
+     println("btn event Load_Vis");
      blackTranny.reset(); 
      pc.loadVis();
   }
   
    public void TogglePrompt() {
-     println("a button event from vis_bak: togglePrompt");
+     println("btn event: togglePrompt");
      pc.togglePrompt();
+  }
+  
+  public void videoOnly() {
+    // put the vis ID here
+    println("video");
+    pc.visNum = 7;
   }
 
   public void BlackTrans() {
@@ -645,7 +661,8 @@ redRangeHue = cp5.addRange("redRangeHue")
     println("bt");
     pc.visNum = 0;
   }
-
+  
+  
 
   
 }  // END OF UI Applet
