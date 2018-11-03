@@ -55,7 +55,7 @@ sdUI objui;
 
 
 dataStorage dsRed, dsGreen, dsBlue;
-TextPanel tPanel = new TextPanel(0,0);
+TextPanel tPanel = new TextPanel(20,20);
 
 Connections connections;
 Puddle puddles;
@@ -194,13 +194,14 @@ switch(pc.visNum) {
     //gbcv.drawVideo(whichVideo);
     vidMimic.pushToScreen(255);
     popMatrix();
+    tPanel.pushToScreen();
     vizPercent.pushToScreen(100,"full");
     break;
   case 3:  //VizPerStripe
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-    vidMimic.pushToScreen(5);
+      vidMimic.pushSquares(60);
     popMatrix();
     vizPercent.pushToScreen(100,"stripes");
     break;
@@ -225,12 +226,12 @@ switch(pc.visNum) {
     break;
   case 6: //Particle
     background(20);
-    //gbcv.drawVideo(whichVideo);
     pushMatrix();
     scale(-1,1);
     translate(-width, 0);
-      vidMimic.pushToScreen(255);
+      particleTimer( int(random(5000,10000)) );
       doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
+      vidMimic.pushToScreen(255);
     popMatrix();
     break;
   case 7://Video
