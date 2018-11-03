@@ -49,6 +49,11 @@ GBCV gbcv;
 promptVisControl pc;
 sdUI objui;  
 
+
+
+
+
+
 dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(0,0);
 

@@ -653,12 +653,15 @@ redRangeHue = cp5.addRange("redRangeHue")
   public void videoOnly() {
     // put the vis ID here
     println("video");
+    pc.pvis = false;
+    blackTranny.reset(); 
     pc.visNum = 7;
   }
 
   public void BlackTrans() {
     // put the vis ID here
     println("bt");
+    blackTranny.reset(); 
     pc.visNum = 0;
   }
   
