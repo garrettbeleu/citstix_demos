@@ -55,7 +55,7 @@ sdUI objui;
 
 
 dataStorage dsRed, dsGreen, dsBlue;
-TextPanel tPanel = new TextPanel(0,0);
+TextPanel tPanel = new TextPanel(20,20);
 
 Connections connections;
 Puddle puddles;
@@ -194,6 +194,7 @@ switch(pc.visNum) {
     //gbcv.drawVideo(whichVideo);
     vidMimic.pushToScreen(255);
     popMatrix();
+    tPanel.pushToScreen();
     vizPercent.pushToScreen(100,"full");
     break;
   case 3:  //VizPerStripe
