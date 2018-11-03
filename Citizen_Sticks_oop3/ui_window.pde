@@ -109,7 +109,7 @@ void keyPressed() {
   if (key=='3') whichVideo='3'; // green filtered
   if (key=='4') whichVideo='4'; // blue filtered 
   if (key=='0') whichVideo='0'; // no video (hide video) 
-  
+  if(keyCode==32) { blackTranny.reset(); } //spacebar to reset black fade
 }
   
   

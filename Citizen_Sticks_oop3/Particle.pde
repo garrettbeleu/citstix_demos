@@ -18,8 +18,8 @@ class Particle {
   
   Particle(PVector l, color _finalColor) {
     //falling
-    acceleration = new PVector(0, random(0.5,2.5) );
-    velocity = new PVector(0, random(3, 5));
+    //acceleration = new PVector(0, random(0.5,2.5) );
+    //velocity = new PVector(0, random(3, 5));
     
     //random direction fast
     //acceleration = new PVector(random(-10.05,10.05), random(-10.05,10.05) );
@@ -28,6 +28,10 @@ class Particle {
     //random direction slow
     //acceleration = new PVector(random(-0.05,0.05), random(-0.05,0.05) );
     //velocity = new PVector(random(-5, 5), random(-5, 5));
+    
+    //circles
+    acceleration = new PVector(0.15, 0.15 );
+    velocity = new PVector(-10, 10);
     
     position = new PVector(l.x,l.y);
     size = l.z; 
@@ -53,7 +57,7 @@ class Particle {
     //stroke(0, opacity);
     //strokeWeight(2);
     fill(finalColor, opacity);
-    ellipse(position.x, position.y, size, size);
+    ellipse(position.x, position.y, size*2, size*2);
   }
 
   // Kill it... or not
@@ -104,4 +108,23 @@ void doParticleViz(float[][] r, float[][] g, float[][] b) {
       }
     }
   
+}
+
+//timer function for changing particle parameters
+
+int dif;
+int time = 0;
+int timerCount=0;
+int timer(int duration) {
+  if(timerCount>1) { timerCount=0;}
+  
+  if ((millis() - time) > duration) {
+    //stuff happens here\\
+    println(timerCount);
+    timerCount++;
+    
+    dif = millis()-time;
+    time = millis(); //reset time
+  }
+  return timerCount;
 }

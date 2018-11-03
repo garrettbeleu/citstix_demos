@@ -22,13 +22,19 @@ import controlP5.*;
 
 //Start Globals
 // FS true sets the screen to full
-boolean fs = true;
+boolean fs = false;
 char whichVideo = '`';
 boolean guiVisibility = true;
 
 PImage[] for_imgs = new PImage[3];
 PImage[] bak_imgs = new PImage[3];
 
+ //fonts
+PFont helv20;
+PFont helvBold20;
+PFont helvBold60;
+
+float promptOpacity;
 
 //End
 
@@ -51,6 +57,8 @@ Puddle puddles;
 
 VisualPercent vizPercent;
 ArrayList<Particle> particles;
+BlackFade blackTranny;
+VidMimic vidMimic;
 
 // Main PApplet Sketch: 
 void settings() {
@@ -84,7 +92,7 @@ void setup() {
   // never use these fonts larger than 20px, smaller is ok
   helv20 = loadFont("Helvetica-20.vlw");
   helvBold20 = loadFont("Helvetica-Bold-20.vlw");
-
+  helvBold60 = loadFont("Helvetica-Bold-60.vlw");
  
 }
 
@@ -113,13 +121,14 @@ void videoStartUpManager() {
   vizPercent = new VisualPercent();
   particles = new ArrayList<Particle>();
   puddles  = new Puddle();
+  blackTranny = new BlackFade(width,height);
+  vidMimic = new VidMimic();
  
  
   //loadGUI(); // need this to create all those cp5 gui widgets
 }
 
 void draw() {
- 
   
   inputVideo.loadFrames();
   
@@ -128,7 +137,7 @@ void draw() {
   drawCurrentUI();
   // println( Arrays.toString(gbcv.calculateTotals(dsRed.data,dsGreen.data,dsBlue.data)) );
   
-  pc.displayPrompt(width/2,100);
+  pc.displayPrompt(width/2,height-150, int(promptOpacity) );
 
   //printTotals(dsRed.data,dsGreen.data,dsBlue.data);
  
@@ -159,37 +168,67 @@ switch(pc.visNum) {
   
   case 0: //Particle
     // BT transiton
-    background(20); 
-    gbcv.drawVideo(whichVideo);
+    //background(20); 
+    //gbcv.drawVideo(whichVideo);
+    blackTranny.fadeOut(); // move this, idk where - GB*****
   break; 
   case 1:  //connect
-    background(20);   
-    gbcv.drawVideo(whichVideo);
-    connections.pushToScreen();
+    blackTranny.reset(); // reset opacity values before each routine, maybe just once though
+    background(20);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      vidMimic.pushToScreen(255);
+      //gbcv.drawVideo(whichVideo);
+      connections.pushToScreen();
+    popMatrix();
     break;
   case 2: //VizPerFull
-    background(20); 
-    gbcv.drawVideo(whichVideo);
+    background(20);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      //gbcv.drawVideo(whichVideo);
+      vidMimic.pushToScreen(255);
+    popMatrix();
     vizPercent.pushToScreen(100,"full");
     break;
   case 3:  //VizPerStripe
-    //gbcv.drawVideo(whichVideo);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      vidMimic.pushToScreen(5);
+    popMatrix();
     vizPercent.pushToScreen(100,"stripes");
     break;
   case 4: //tPanel
     background(20);
-    gbcv.drawVideo(whichVideo);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      gbcv.drawVideo(whichVideo);
+    popMatrix();
     tPanel.pushToScreen();
     break;
   case 5:
-   background(20); 
-   gbcv.drawVideo(whichVideo);
-   puddles.pushToScreen();
-   break;
+    background(20); 
+    //gbcv.drawVideo(whichVideo);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      vidMimic.pushToScreen(255);
+      puddles.pushToScreen();
+    popMatrix();
+    break;
   case 6: //Particle
-  background(20);
-    gbcv.drawVideo(whichVideo);
-    doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
+    background(20);
+    //gbcv.drawVideo(whichVideo);
+    pushMatrix();
+    scale(-1,1);
+    translate(-width, 0);
+      vidMimic.pushToScreen(255);
+      doParticleViz(dsRed.data, dsGreen.data, dsBlue.data);
+    popMatrix();
     break;
    //zzzz.pushToScreen();
   //  break;
@@ -210,13 +249,5 @@ switch(pc.visNum) {
   
   //uiObj.guiText(color(255), guiVisibility, whichVideo);
 
- // connections.pushToScreen();
-  // full mode
-  ///vizPercent.pushToScreen(100,"full");
-  
-  // this one is cool, but the problem is that it uses the
-  // opacity screen wipe technique, therefore
-  // background() and anything reliant on it cannot also be used
-  //vizPercent.pushToScreen(255,"stripes");
   
 }

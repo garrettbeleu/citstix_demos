@@ -12,10 +12,6 @@ TO-DO
   ... but leave for now until we decide upon a final font size
 */
 
-// global scope font
-PFont helv20;
-PFont helvBold20;
-
 class TextPanel {
   int x,y;
   color c;
