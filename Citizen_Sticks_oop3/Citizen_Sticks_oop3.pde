@@ -49,11 +49,6 @@ GBCV gbcv;
 promptVisControl pc;
 sdUI objui;  
 
-
-
-
-
-
 dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(20,20);
 
@@ -112,9 +107,9 @@ void videoStartUpManager() {
   //frameRate(0.5);
 
   // //...movie input source  - - - test2.mp4 or demo1Edit.mp4
-  inputVideo = new VideoSource(video,this,"test2.mp4");
+  //inputVideo = new VideoSource(video,this,"test2.mp4");
   // //...camera input source
-  //inputVideo = new VideoSource(cap, this, 1280, 720); 
+  inputVideo = new VideoSource(cap, this, 1280, 720); 
   
   opencv.useColor(HSB);// set cv colorspace to HSB for filtering
   
