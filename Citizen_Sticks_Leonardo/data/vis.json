@@ -1,0 +1,38 @@
+[
+  {
+    "visual": "BT",
+    "id": 0
+  },
+  {
+    "visual": "connect",
+    "id": 1
+  },
+
+  {
+    "visual": "VizPerStripe",
+    "id": 2
+  },
+  {
+    "visual": "VizPerFull",
+    "id": 3
+  },
+
+  {
+    "visual": "Grow",
+    "id": 4
+  },
+
+  {
+    "visual": "Puddle",
+    "id": 5
+  },
+
+  {
+    "visual": "Particle",
+    "id": 6
+  },
+  {
+    "visual": "Video",
+    "id": 7
+  }
+]
