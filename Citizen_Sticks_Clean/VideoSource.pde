@@ -1,4 +1,7 @@
 
+// VideoSource grabs either camera or movie file and passes to openCV object
+
+
 class VideoSource{
   Capture webcam;
   Movie movie;

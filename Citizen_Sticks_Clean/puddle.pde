@@ -1,4 +1,7 @@
 
+
+// Sd describe  ( lighning like effect )
+
 class Puddle {
 
   ArrayList orbCollectionR;
