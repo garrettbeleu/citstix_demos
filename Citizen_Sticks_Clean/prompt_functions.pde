@@ -1,7 +1,13 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////// 
-//SD provide commenting here
+/*
+Code for loading, controlling and displaying the Prompt features
+Also Includes the JSON load and save functions
+
+
+*/
+
  
      
   class promptVisControl{

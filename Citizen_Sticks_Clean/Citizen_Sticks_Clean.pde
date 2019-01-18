@@ -100,8 +100,7 @@ void videoStartUpManager() {
   
   pc = new  promptVisControl();
   //pc.loadBoth();
-
-
+  
   ////___________movie input sources - - - test2.mp4 or demo1Edit.mp4
   inputVideo = new VideoSource(video,this,"test2.mp4");
   ////___________camera input source
