@@ -1,10 +1,9 @@
 
 
 /////////////////////////////////////////////////////////////////////////////////// 
- //SD provide commenting here
-   
-   
-   
+//SD provide commenting here
+ 
+     
   class promptVisControl{
       JSONArray jwords,jvis;
      // JSONArray values;

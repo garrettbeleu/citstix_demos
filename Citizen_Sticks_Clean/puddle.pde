@@ -1,6 +1,6 @@
 
 
-// Sd describe  ( lighning like effect )
+// SD describe comments in more detail ( lighning like effect )
 
 class Puddle {
 
