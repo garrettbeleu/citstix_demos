@@ -218,7 +218,7 @@ void drawCurrentUI() {
     case 1:  //connect
       pushMatrix();
       scale(-1,1);
-      translate(-width, 0);
+      translate(-width+tempOff, 0);
       background(20); 
       vidMimic.pushToScreen(255);
       connections.pushToScreen();
