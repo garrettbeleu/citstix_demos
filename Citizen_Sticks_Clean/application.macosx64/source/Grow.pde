@@ -1,7 +1,12 @@
+/*
+
+// SD commenting needed (created blocky effect)
+
+// Grow Class that runs the visual birthes/destroys Block objects
+//  The Block class has moving and flocking methods to move and compare
 
 
-// Sd commenting needed (created blocky effect)
-
+*/
 
 
 class Grow {
@@ -9,9 +14,9 @@ class Grow {
   ArrayList<Block> blockCollectionR;
   ArrayList<Block> blockCollectionG;
   ArrayList<Block> blockCollectionB;
-  
   int counter = 0;
   int gridSize = 30;
+  
   //constructor
   Grow() {  
     blockCollectionR = new ArrayList();
@@ -19,9 +24,12 @@ class Grow {
     blockCollectionB = new ArrayList();
   }
 
-  void blockGrowthMaster(float[][] ar, float[][] ag, float[][] ab, color kr, color kg,color kb, ArrayList cr,ArrayList cg,ArrayList cb) {
+  void blockGrowthMaster(float[][] ar, float[][] ag, float[][] ab, 
+                         color kr, color kg,color kb, ArrayList cr,ArrayList cg,ArrayList cb) {
 
       // if (inputArray.length>0) {
+        
+         // Red ////////////////
              
         for (int i=0; i<ar.length; i++) {                                                    
                 Vec3D origin =  new Vec3D(int(ar[i][0]/gridSize)*gridSize, int(ar[i][1]/gridSize)*gridSize, 0);  
@@ -41,7 +49,7 @@ class Grow {
                  newB.run(); 
         }
         
-       //////////////////
+       // Grn ////////////////
 
           for (int i=0; i<ag.length; i++) {                                                    
                 Vec3D origin =  new Vec3D(int(ag[i][0]/gridSize)*gridSize, int(ag[i][1]/gridSize)*gridSize, 0);  
@@ -56,13 +64,14 @@ class Grow {
             }
           }
 
-      
+        // sd should this be grn objects????
         for (int i = 0; i < cg.size(); i++) {
            Block newB = (Block) cg.get(i);
            newB.run(); 
         }
         
-        ////////////////////////////
+        // Blu //////////////////////////
+        
            for (int i=0; i<ab.length; i++) {                                                    
                 Vec3D origin =  new Vec3D(int(ab[i][0]/gridSize)*gridSize, int(ab[i][1]/gridSize)*gridSize, 0);  
                 Block curB =  new Block(origin, this, cb, kb); 
@@ -81,12 +90,7 @@ class Grow {
            Block newB = (Block) cb.get(i);
            newB.run(); 
         }
-
-  
-           
-           
-           
-           
+     
     
   }
 
@@ -148,7 +152,6 @@ class Block {
 
 
   void flock() {
-
     seperate(5);
     cohesion(.001);
     align(1.0);
@@ -235,9 +238,6 @@ class Block {
 
 
 
-
-
-
   void lineBetween() {
 
     //ballCollection
@@ -296,7 +296,6 @@ class Block {
   }
   
   
-  
   boolean finished() {
     // Balls fade out
     life--;
@@ -306,8 +305,6 @@ class Block {
       return false;
     }
   }
-  
-  
-  
+   
   
 } 

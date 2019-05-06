@@ -224,5 +224,9 @@ public class vidSelectUI extends PApplet {
     }
   };
 
+  void exit() {
+    dispose();
+    objui = null;
+  }
 
 }  // END OF UI Applet

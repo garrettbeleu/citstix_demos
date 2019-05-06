@@ -46,7 +46,8 @@ OpenCV opencv;
 GBCV gbcv;
 
 promptVisControl pc;
-sdUI objui;  
+sdUI objui;
+configUI figui;
 
 dataStorage dsRed, dsGreen, dsBlue;
 TextPanel tPanel = new TextPanel(20,20);
@@ -72,6 +73,9 @@ void settings() {
 void setup() {
   objui = new sdUI(this); 
   runSketch(new String[] { "My uiObj Window" }, objui);
+  
+  figui = new configUI(this); 
+  runSketch(new String[] { "My figui Window" }, figui);
  
   for_imgs[0] = loadImage("button_a.png");
   for_imgs[1] = loadImage("button_b.png");
@@ -104,7 +108,7 @@ void videoStartUpManager() {
   ////___________movie input sources - - - test2.mp4 or demo1Edit.mp4
   inputVideo = new VideoSource(video,this,"test2.mp4");
   ////___________camera input source
-  //inputVideo = new VideoSource(cap, this, 1280, 720); 
+ // inputVideo = new VideoSource(cap, this, 1280, 720); 
   
   opencv.useColor(HSB);// set cv colorspace to HSB for filtering
   
@@ -123,12 +127,12 @@ void videoStartUpManager() {
 }
 
 void draw() {
-  inputVideo.loadFrames();
+ // inputVideo.loadFrames();
   
   // seperation of the CV from the visuals.
-  updateCV();  
+ // updateCV();  
   
-  drawCurrentUI();
+ // drawCurrentUI();
   
   pc.displayPrompt(width/2,height-300, int(promptOpacity) );
   // pc.displayPrompt(0,height-150, int(promptOpacity) );

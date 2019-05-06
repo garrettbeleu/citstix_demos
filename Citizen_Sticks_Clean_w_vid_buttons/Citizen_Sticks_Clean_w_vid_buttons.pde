@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 ArrayList<String> videoPaths = new ArrayList<String>();
 Capture cam;
 Movie movie;
-vidSelectUI vidUI; // vid select window
+
 
 
 
@@ -59,6 +59,10 @@ GBCV gbcv;
 
 promptVisControl pc;
 sdUI objui;
+// sd add 4.29
+configUI figui;
+
+vidSelectUI vidUI; // vid select window
 
 
 dataStorage dsRed, dsGreen, dsBlue;
@@ -82,13 +86,34 @@ void settings() {
   }
 }  
 
-void setup() {
+
+void openUI() {
   objui = new sdUI(this); 
-  runSketch(new String[] { "My uiObj Window" }, objui);
-  
-  //added 4/15
+  runSketch(new String[] { "My uiObj Window" }, objui); 
+}
+
+void openvidUI() {
+   //added 4/15
   vidUI = new vidSelectUI(this);
   runSketch(new String[] { "vid Select Window" }, vidUI);
+
+  
+}
+
+void openvidUI() {
+  
+  figui = new configUI(this); 
+  runSketch(new String[] { "My figui Window" }, figui);
+
+
+  
+}
+
+
+void setup() {
+  
+  
+    
   
   // video paths need to be obtained from this main window
   // when doing it from the vidUI window, therre is an ERROR
@@ -153,7 +178,7 @@ void videoStartUpManager() {
 }
 
 void draw() {
-    
+    if (vidUI !=null) {
   //___________main routine
   if(vidUI.camStarted || vidUI.movieStarted ) {
   
@@ -167,6 +192,8 @@ void draw() {
     pc.displayPrompt(width/2,height-300, int(promptOpacity) );
      
   }
+  
+    }
   
   //________ test to draw videos only but no openCV
   //  if (vidUI.camStarted == true) {

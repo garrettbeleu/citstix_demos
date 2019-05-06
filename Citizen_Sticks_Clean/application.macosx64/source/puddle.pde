@@ -1,6 +1,10 @@
 
+/*
+// Puddle Class that runs the visual birthes/destroys Rip objects
+//  The Rip class has moving and flocking methods to move and compare
 
-// SD describe comments in more detail ( lighning like effect )
+*/
+
 
 class Puddle {
 
@@ -10,7 +14,7 @@ class Puddle {
   int counter = 0;
 
 
-  //constructor
+  //Constructor
   Puddle() {  
     orbCollectionR = new ArrayList();
     orbCollectionG = new ArrayList();
@@ -29,17 +33,17 @@ class Puddle {
          // Vec3D origin =  new Vec3D(random(width), random(200), 0);  
           
           Vec3D origin =  new Vec3D(inputArray[i][0],inputArray[i][1], 0); 
-          Orb curOrb =  new Orb(origin, this, collection, k); 
-          collection.add(curOrb);
+          Rip curRip =  new Rip(origin, this, collection, k); 
+          collection.add(curRip);
           
           //curOrb.run();
         }
 
         for (int i = collection.size() - 1; i >= 0; i--) {
           
-          Orb curOrb = (Orb) collection.get(i);
+          Rip curRip = (Rip) collection.get(i);
           
-          if (curOrb.finished()) {
+          if (curRip.finished()) {
             collection.remove(i);
           }
         }
@@ -56,8 +60,8 @@ class Puddle {
 
 
         for ( int i = 0; i < collection.size(); i++) {
-           Orb newOrb = (Orb) collection.get(i);
-           newOrb.run(); 
+           Rip newRip = (Rip) collection.get(i);
+           newRip.run(); 
         }
       }
     }
@@ -80,7 +84,7 @@ class Puddle {
 ////////////////////////////////// Begin Orb  //////////////////
 
 
-class Orb { 
+class Rip { 
   //var available for the whole class
   float x = 0;
   float y = 0; 
@@ -98,7 +102,7 @@ class Orb {
 
 
   //Constructor
-  Orb (Vec3D _loc, Puddle _p, ArrayList _c, color _k) {  
+  Rip (Vec3D _loc, Puddle _p, ArrayList _c, color _k) {  
     loc = _loc;
     p = _p;
     c = _c;
@@ -131,7 +135,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Rip other = (Rip) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 40) {
@@ -156,7 +160,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Rip other = (Rip) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 60) {
@@ -183,7 +187,7 @@ class Orb {
     int count = 0;
 
     for (int i = 0; i < c.size(); i++ ) {
-      Orb other = (Orb) c.get(i);
+      Rip other = (Rip) c.get(i);
       float distance = loc.distanceTo(other.loc);
 
       if ( distance > 0 && distance < 40) {
@@ -214,7 +218,7 @@ class Orb {
 
     for (int i = 0; i < c.size(); i++ ) {
 
-      Orb other = (Orb) c.get(i);
+      Rip other = (Rip) c.get(i);
 
       float distance = loc.distanceTo(other.loc);
 
