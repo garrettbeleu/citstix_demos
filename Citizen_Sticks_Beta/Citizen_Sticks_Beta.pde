@@ -63,7 +63,8 @@ OpenCV opencv;
 GBCV gbcv;
 
 promptVisControl pc;
-sdUI objui;
+mainUI objui;
+simpleUI sobjui;
 
 
 dataStorage dsRed, dsGreen, dsBlue;
@@ -280,7 +281,7 @@ void draw() {
 
  void launchUiWin() {
    if (objui == null ) {
-    objui = new sdUI(this); 
+    objui = new mainUI(this); 
     runSketch(new String[] { "My uiObj Window" }, objui);
     uiWinVis = true;
    }

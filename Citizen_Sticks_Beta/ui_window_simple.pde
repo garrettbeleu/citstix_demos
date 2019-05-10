@@ -4,11 +4,10 @@
 */
 
  
- 
- public String UIPrompt ="naz";
+ //public String UIPrompt ="naz";
 
 // Nested PApplet Class A:
-public class mainUI extends PApplet {
+public class simpleUI extends PApplet {
     PApplet mainparent;
     
     ControlP5 cp5;
@@ -51,7 +50,7 @@ public class mainUI extends PApplet {
    
     
     
-     public mainUI(PApplet parent){
+     public simpleUI(PApplet parent){
       this.mainparent = parent;
      
       //super();
