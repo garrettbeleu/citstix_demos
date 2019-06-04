@@ -263,9 +263,9 @@ void drawCurrentUI() {
       scale(-1,1);
       translate(-width + tempOff, 0);
      
-     // growth.pushToScreen();
-       buildth.pushToScreen();
-        vidMimic.pushToScreen(255);
+       growth.pushToScreen();
+      
+       vidMimic.pushToScreen(255);
       popMatrix(); 
       break;
     case 5: //Puddles
@@ -301,9 +301,9 @@ void drawCurrentUI() {
       background(20);
       pushMatrix();
       scale(-1,1);
-      translate(-width + tempOff, 0);
-      vidMimic.pushToScreen(255);
+      translate(-width + tempOff, 0); 
       buildth.pushToScreen();
+      vidMimic.pushToScreen(255);
       popMatrix(); 
       break;
 

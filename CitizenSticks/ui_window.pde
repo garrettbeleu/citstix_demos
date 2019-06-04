@@ -304,7 +304,11 @@ void Clear() {
       mainWindowDelay = true;
       ////particles.clear() added to Particle tab - it empties the particle Arraylist
       break;
-    case 7://Video
+    case 7: //Buildr 
+      mainWindowDelay = true;
+      ////particles.clear() added to Particle tab - it empties the particle Arraylist
+      break;
+    case 8://Video
       mainWindowDelay = true;
       break;
     default:             // Default executes if the case labels

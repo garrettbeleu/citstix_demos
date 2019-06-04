@@ -226,6 +226,7 @@ void videoStartUpManager() {
   particles = new ArrayList<Particle>();
   puddles  = new Puddle();
   growth = new Grow();
+  buildth = new Buildr();
   blackTranny = new BlackFade(width, height);
   vidMimic = new VidMimic();
   

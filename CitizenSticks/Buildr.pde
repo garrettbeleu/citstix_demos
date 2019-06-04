@@ -94,7 +94,7 @@ class Buildr {
                 float distanceR = origin.distanceTo(newR.loc);
                    
                   if ( distanceR < 80 ) {
-                    print("dr" + j);
+                    //print("dr" + j);
                     newR.life = 20;
                     //cg.remove(j);
                   }       
@@ -152,7 +152,7 @@ class Buildr {
     noFill();
     //color(0,alphaAmnt)
    // color(0,0,200,alphaAmnt)
-    blockBuildMaster(dsRed.data, dsGreen.data, dsBlue.data, color(10,alphaAmnt*2),color(0,255,0,alphaAmnt),color(0,0,255,alphaAmnt),
+    blockBuildMaster(dsRed.data, dsGreen.data, dsBlue.data, color(15,alphaAmnt*2),color(0,255,0,alphaAmnt),color(0,0,255,alphaAmnt),
     blockCollectionR, blockCollectionG, blockCollectionB);
     
     // GB added

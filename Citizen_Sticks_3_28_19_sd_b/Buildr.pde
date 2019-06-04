@@ -16,7 +16,7 @@ class Buildr {
   ArrayList<Blockr> blockCollectionB;
   int counter = 0;
   int gridSize = 30; //30
-  int alphaAmnt = 30;
+  int alphaAmnt = 20;
   
   //constructor
   Buildr() {  
@@ -32,28 +32,7 @@ class Buildr {
        
      
         
-         // Red ////////////////  Actually blacks out or dims the green.
-             
-        for (int i=0; i<ar.length; i++) {                                                    
-              Vec3D origin =  new Vec3D(int(ar[i][0]/gridSize)*gridSize, int(ar[i][1]/gridSize)*gridSize, 0);  
-              Blockr curR =  new Blockr(0,origin, this, cr, kr); 
-              cr.add(curR);           
-        }
-                 
-          
-         for (int i = cr.size() - 1; i >= 0; i--) {            
-            Blockr curR = (Blockr) cr.get(i);            
-            if (curR.finished()) {
-              cr.remove(i);
-            }
-          }
-          
-
-       
-        for (int i = 0; i < cr.size(); i++) {
-           Blockr newR = (Blockr) cr.get(i);
-           newR.run(); 
-        }
+        
 
         
        // Grn ////////////////
@@ -79,6 +58,29 @@ class Buildr {
            newG.run(); 
         }
         
+         // Red ////////////////  Actually blacks out or dims the green.
+             
+        for (int i=0; i<ar.length; i++) {                                                    
+              Vec3D origin =  new Vec3D(int(ar[i][0]/gridSize)*gridSize, int(ar[i][1]/gridSize)*gridSize, 0);  
+              Blockr curR =  new Blockr(0,origin, this, cr, kr); 
+              cr.add(curR);           
+        }
+                 
+          
+         for (int i = cr.size() - 1; i >= 0; i--) {            
+            Blockr curR = (Blockr) cr.get(i);            
+            if (curR.finished()) {
+              cr.remove(i);
+            }
+          }
+          
+
+       
+        for (int i = 0; i < cr.size(); i++) {
+           Blockr newR = (Blockr) cr.get(i);
+           newR.run(); 
+        }
+        
         // Blu ////////////////////////// BRINGER OF CHANGE  // reduces the life of any object
         
            for (int i=0; i<ab.length; i++) {                                                    
@@ -93,7 +95,7 @@ class Buildr {
                    
                   if ( distanceR < 80 ) {
                     print("dr" + j);
-                    newR.life = 40;
+                    newR.life = 20;
                     //cg.remove(j);
                   }       
               }
@@ -107,7 +109,7 @@ class Buildr {
 
                   if ( distanceG < 80 ) {
                    //  print("dg" + j);
-                     newG.life = 40;
+                     newG.life = 20;
                     // cg.remove(j);
                   }       
               }
@@ -150,7 +152,7 @@ class Buildr {
     noFill();
     //color(0,alphaAmnt)
    // color(0,0,200,alphaAmnt)
-    blockBuildMaster(dsRed.data, dsGreen.data, dsBlue.data, color(5,alphaAmnt),color(0,255,0,alphaAmnt),color(0,0,255,alphaAmnt),
+    blockBuildMaster(dsRed.data, dsGreen.data, dsBlue.data, color(10,alphaAmnt*2),color(0,255,0,alphaAmnt),color(0,0,255,alphaAmnt),
     blockCollectionR, blockCollectionG, blockCollectionB);
     
     // GB added
