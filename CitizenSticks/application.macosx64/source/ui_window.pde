@@ -304,7 +304,11 @@ void Clear() {
       mainWindowDelay = true;
       ////particles.clear() added to Particle tab - it empties the particle Arraylist
       break;
-    case 7://Video
+    case 7: //Buildr 
+      mainWindowDelay = true;
+      ////particles.clear() added to Particle tab - it empties the particle Arraylist
+      break;
+    case 8://Video
       mainWindowDelay = true;
       break;
     default:             // Default executes if the case labels
@@ -841,7 +845,7 @@ redRangeHue = cp5.addRange("redRangeHue")
     println("video");
     pc.pvis = false;
     blackTranny.reset(); 
-    pc.visNum = 7;
+    pc.visNum = 8;
   }
 
   public void BlackTrans() {
@@ -952,7 +956,7 @@ void HoughCalibrate() {
            showHideButtons = true;
            buttonVisibility(showHideButtons);
            
-          pc.visNum = 7;
+          pc.visNum = 8;
            
            break; 
          }
@@ -994,7 +998,7 @@ void HoughCalibrate() {
       showHideButtons = true;
       buttonVisibility(showHideButtons);
       
-      pc.visNum = 7;
+      pc.visNum = 8;
      
     }
   };

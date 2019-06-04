@@ -107,6 +107,7 @@ TextPanel tPanel = new TextPanel(20, 20);
 Connections connections;
 Puddle puddles;
 Grow growth;
+Buildr buildth;
 
 VisualPercent vizPercent;
 ArrayList<Particle> particles;
@@ -260,6 +261,7 @@ public void videoStartUpManager() {
   particles = new ArrayList<Particle>();
   puddles  = new Puddle();
   growth = new Grow();
+  buildth = new Buildr();
   blackTranny = new BlackFade(width, height);
   vidMimic = new VidMimic();
   
@@ -388,7 +390,7 @@ public void drawCurrentUI() {
     popMatrix();
     vizPercent.pushToScreen(100, "stripes");
     break;
-  case 4: //growth
+  case 4: //Growth
     background(20);
     pushMatrix();
     scale(-1, 1);
@@ -420,7 +422,17 @@ public void drawCurrentUI() {
     vidMimic.pushToScreen(255);
     popMatrix();
     break;
-  case 7://Video
+  case 7: //Buildth
+    background(20);
+    pushMatrix();
+    scale(-1, 1);
+    //translate(-width + tempOff, 0);
+    translate(  (-width) + (width-gframe.w)/2  ,0);
+    buildth.pushToScreen();
+    vidMimic.pushToScreen(255);
+    popMatrix(); 
+    break;
+  case 8://Video
     background(20);
     pushMatrix();
     scale(-1, 1);
@@ -431,7 +443,7 @@ public void drawCurrentUI() {
     //connections.pushToScreen();   // this is test! remove
     popMatrix();
     break;
-  case 8: // Hough Circles Calibration
+  case 9: // Hough Circles Calibration
     background(20);
     pushMatrix();
     scale(-1, 1);
@@ -576,6 +588,283 @@ class BlackFade {
   }
   
 }
+
+/*
+
+// SD commenting needed (created Building and remove effect)
+
+// Buildr Class that runs the visual builds/destroys Block objects
+//  The Block class has moving and flocking methods to move and compare
+
+*/
+
+
+class Buildr {
+
+  ArrayList<Blockr> blockCollectionR;
+  ArrayList<Blockr> blockCollectionG;
+  ArrayList<Blockr> blockCollectionB;
+  int counter = 0;
+  int gridSize = 30; //30
+  int alphaAmnt = 20;
+  
+  //constructor
+  Buildr() {  
+   println("hey");
+   
+    blockCollectionR = new ArrayList();
+    blockCollectionG = new ArrayList();
+    blockCollectionB = new ArrayList();
+  }
+
+  public void blockBuildMaster(float[][] ar, float[][] ag, float[][] ab, 
+                         int kr, int kg,int kb, ArrayList cr,ArrayList cg,ArrayList cb) {
+       
+     
+        
+        
+
+        
+       // Grn ////////////////
+
+        for (int i=0; i<ag.length; i++) {                                                    
+              Vec3D origin =  new Vec3D(PApplet.parseInt(ag[i][0]/gridSize)*gridSize, PApplet.parseInt(ag[i][1]/gridSize)*gridSize, 0);  
+              Blockr curB =  new Blockr(1,origin, this, cg, kg); 
+              cg.add(curB);           
+        }
+                 
+          
+         for (int i = cg.size() - 1; i >= 0; i--) {            
+            Blockr curG = (Blockr) cg.get(i);            
+            if (curG.finished()) {
+              cg.remove(i);
+            }
+          }
+          
+
+       
+        for (int i = 0; i < cg.size(); i++) {
+           Blockr newG = (Blockr) cg.get(i);
+           newG.run(); 
+        }
+        
+         // Red ////////////////  Actually blacks out or dims the green.
+             
+        for (int i=0; i<ar.length; i++) {                                                    
+              Vec3D origin =  new Vec3D(PApplet.parseInt(ar[i][0]/gridSize)*gridSize, PApplet.parseInt(ar[i][1]/gridSize)*gridSize, 0);  
+              Blockr curR =  new Blockr(0,origin, this, cr, kr); 
+              cr.add(curR);           
+        }
+                 
+          
+         for (int i = cr.size() - 1; i >= 0; i--) {            
+            Blockr curR = (Blockr) cr.get(i);            
+            if (curR.finished()) {
+              cr.remove(i);
+            }
+          }
+          
+
+       
+        for (int i = 0; i < cr.size(); i++) {
+           Blockr newR = (Blockr) cr.get(i);
+           newR.run(); 
+        }
+        
+        // Blu ////////////////////////// BRINGER OF CHANGE  // reduces the life of any object
+        
+           for (int i=0; i<ab.length; i++) {                                                    
+            
+             Vec3D origin =  new Vec3D(PApplet.parseInt(ab[i][0]/gridSize)*gridSize, PApplet.parseInt(ab[i][1]/gridSize)*gridSize, 0); 
+            
+              for (int j = cr.size() - 1; j >= 0; j--) { 
+               // print("r" + j);
+                Blockr newR = (Blockr) cr.get(j);
+                  
+                float distanceR = origin.distanceTo(newR.loc);
+                   
+                  if ( distanceR < 80 ) {
+                    //print("dr" + j);
+                    newR.life = 20;
+                    //cg.remove(j);
+                  }       
+              }
+              
+              
+              for (int j = cg.size() - 1; j >= 0; j--) { 
+               // print("g" + j);
+                Blockr newG = (Blockr) cg.get(j);
+                  
+                float distanceG = origin.distanceTo(newG.loc);
+
+                  if ( distanceG < 80 ) {
+                   //  print("dg" + j);
+                     newG.life = 20;
+                    // cg.remove(j);
+                  }       
+              }
+            
+                       
+            }
+         
+               
+          //for (int i = cg.size() - 1; i >= 0; i--) {            
+             
+            
+              
+          //  //if (curB.finished()) {
+          //  //  cg.remove(i);
+          //  //}
+          //}       
+                 
+                 
+          //for (int i = cb.size() - 1; i >= 0; i--) {            
+          //  Blockr curB = (Blockr) cb.get(i);            
+          //  if (curB.finished()) {
+          //    cb.remove(i);
+          //  }
+          //}
+
+      
+        //for (int i = 0; i < cb.size(); i++) {
+        //   Blockr newB = (Blockr) cb.get(i);
+        //   newB.run(); 
+        //}
+     
+    
+  }
+
+
+
+  public void pushToScreen() {
+    //strokeWeight(3);
+    rectMode(CORNER);
+    noFill();
+    //color(0,alphaAmnt)
+   // color(0,0,200,alphaAmnt)
+    blockBuildMaster(dsRed.data, dsGreen.data, dsBlue.data, color(15,alphaAmnt*2),color(0,255,0,alphaAmnt),color(0,0,255,alphaAmnt),
+    blockCollectionR, blockCollectionG, blockCollectionB);
+    
+    // GB added
+    if (mainWindowDelay == true) {
+      blockCollectionR.clear();
+      blockCollectionG.clear();
+      blockCollectionB.clear();
+    }
+    
+  }
+  
+  
+}
+
+////////////// END OF CLASS Buildr ////////////////
+
+
+////////////////////////////////// Begin Block  //////////////////
+
+
+class Blockr { 
+  //var available for the whole class
+  float x = 0;
+  float y = 0; 
+  float speedX = 0; //random(-2.2);
+  float speedY = 0; // random(-2.2);
+  Buildr p;
+  ArrayList c;
+  int k;
+ public int life = 3000; // 80
+
+  public Vec3D loc =   new Vec3D(0, 0, 0);
+  Vec3D speed = new Vec3D(random(-2, 2), random(-2, 2), 0);
+  Vec3D grav =  new Vec3D(0, 0.2f, 0);
+  Vec3D acc = new Vec3D();
+
+  //Constructor
+  Blockr (int whichK, Vec3D _loc, Buildr _p, ArrayList _c, int _k) {  
+    loc = _loc;
+    p = _p;
+    c = _c;
+    k = _k;
+    
+  } 
+
+  public void run() {
+
+    display();
+    core();
+  
+  }
+
+
+  
+   public Vec3D getVect() {
+     return loc;
+   }
+
+  
+
+
+
+  public void core() {
+
+    //adding core
+
+    for (int i = 0; i < c.size(); i++ ) {
+
+      Blockr other = (Blockr) c.get(i);
+
+      float distance = loc.distanceTo(other.loc);
+
+      if ( distance > 60 && distance < 80) {
+        //strokeWeight(40/distance);
+        rectMode(CENTER);
+        fill(k);
+        rect(loc.x, loc.y, 15,15,3);
+      }
+    }
+  }
+
+  public void display() { 
+  
+        rectMode(CENTER);
+        fill(k);
+        stroke(k);
+        rect(loc.x, loc.y, 30,30,6); 
+  } 
+  
+ 
+
+  public void bounce() {
+
+    if ( loc.x > width) {
+      speed.x = - speed.x;
+    }
+    if (loc.x < 0) {
+      speed.x = - speed.x;
+    }
+
+    if ( loc.y > height+10) {
+      speed.y = -speed.y;
+    }
+    if (loc.y < 0) {
+      speed.y = -speed.y;
+    }
+  }
+
+  
+  
+  public boolean finished() {
+    // Balls fade out
+    life--;
+    if (life < 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+   
+  
+} 
 /*
 //\\//\\//\\//\\//\\//\\//\\//\\
     Connect circles data-viz
@@ -2153,6 +2442,7 @@ Also Includes the JSON load and save functions
       public void loadVis() {     
          currVis = nextVis;
           println("loadVis " + currVis);
+           println("The vizNum " + queVisNum);
          visNum = queVisNum;
          objui.currVisualTxt.setText(currVis);
       }
@@ -2880,7 +3170,11 @@ public void Clear() {
       mainWindowDelay = true;
       ////particles.clear() added to Particle tab - it empties the particle Arraylist
       break;
-    case 7://Video
+    case 7: //Buildr 
+      mainWindowDelay = true;
+      ////particles.clear() added to Particle tab - it empties the particle Arraylist
+      break;
+    case 8://Video
       mainWindowDelay = true;
       break;
     default:             // Default executes if the case labels
@@ -3417,7 +3711,7 @@ redRangeHue = cp5.addRange("redRangeHue")
     println("video");
     pc.pvis = false;
     blackTranny.reset(); 
-    pc.visNum = 7;
+    pc.visNum = 8;
   }
 
   public void BlackTrans() {
@@ -3528,7 +3822,7 @@ public void HoughCalibrate() {
            showHideButtons = true;
            buttonVisibility(showHideButtons);
            
-          pc.visNum = 7;
+          pc.visNum = 8;
            
            break; 
          }
@@ -3570,7 +3864,7 @@ public void HoughCalibrate() {
       showHideButtons = true;
       buttonVisibility(showHideButtons);
       
-      pc.visNum = 7;
+      pc.visNum = 8;
      
     }
   };

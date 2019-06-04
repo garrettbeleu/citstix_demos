@@ -119,6 +119,7 @@ Also Includes the JSON load and save functions
       void loadVis() {     
          currVis = nextVis;
           println("loadVis " + currVis);
+           println("The vizNum " + queVisNum);
          visNum = queVisNum;
          objui.currVisualTxt.setText(currVis);
       }

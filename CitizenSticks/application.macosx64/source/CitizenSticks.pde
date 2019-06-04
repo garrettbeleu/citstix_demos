@@ -72,6 +72,7 @@ TextPanel tPanel = new TextPanel(20, 20);
 Connections connections;
 Puddle puddles;
 Grow growth;
+Buildr buildth;
 
 VisualPercent vizPercent;
 ArrayList<Particle> particles;
@@ -225,6 +226,7 @@ void videoStartUpManager() {
   particles = new ArrayList<Particle>();
   puddles  = new Puddle();
   growth = new Grow();
+  buildth = new Buildr();
   blackTranny = new BlackFade(width, height);
   vidMimic = new VidMimic();
   
@@ -353,7 +355,7 @@ void drawCurrentUI() {
     popMatrix();
     vizPercent.pushToScreen(100, "stripes");
     break;
-  case 4: //growth
+  case 4: //Growth
     background(20);
     pushMatrix();
     scale(-1, 1);
@@ -385,7 +387,17 @@ void drawCurrentUI() {
     vidMimic.pushToScreen(255);
     popMatrix();
     break;
-  case 7://Video
+  case 7: //Buildth
+    background(20);
+    pushMatrix();
+    scale(-1, 1);
+    //translate(-width + tempOff, 0);
+    translate(  (-width) + (width-gframe.w)/2  ,0);
+    buildth.pushToScreen();
+    vidMimic.pushToScreen(255);
+    popMatrix(); 
+    break;
+  case 8://Video
     background(20);
     pushMatrix();
     scale(-1, 1);
@@ -396,7 +408,7 @@ void drawCurrentUI() {
     //connections.pushToScreen();   // this is test! remove
     popMatrix();
     break;
-  case 8: // Hough Circles Calibration
+  case 9: // Hough Circles Calibration
     background(20);
     pushMatrix();
     scale(-1, 1);
