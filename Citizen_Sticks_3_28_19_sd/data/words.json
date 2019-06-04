@@ -5,7 +5,7 @@
     "prompt": "Blank"
   },
   {
-    "visual": "connect",
+    "visual": "KKonnect",
     "id": 1,
     "prompt": "Trans-Disciplinary"
   },
@@ -37,5 +37,15 @@
     "visual": "Particle",
     "id": 6,
     "prompt": "Now What?"
+  },
+  {
+    "visual": "SmartParticle",
+    "id": 7,
+    "prompt": "Now BBB?"
+  },
+  {
+    "visual": "Buildr",
+    "id": 8,
+    "prompt": "draw"
   }
 ]

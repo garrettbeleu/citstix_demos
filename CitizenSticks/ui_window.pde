@@ -841,7 +841,7 @@ redRangeHue = cp5.addRange("redRangeHue")
     println("video");
     pc.pvis = false;
     blackTranny.reset(); 
-    pc.visNum = 7;
+    pc.visNum = 8;
   }
 
   public void BlackTrans() {
@@ -952,7 +952,7 @@ void HoughCalibrate() {
            showHideButtons = true;
            buttonVisibility(showHideButtons);
            
-          pc.visNum = 7;
+          pc.visNum = 8;
            
            break; 
          }
@@ -994,7 +994,7 @@ void HoughCalibrate() {
       showHideButtons = true;
       buttonVisibility(showHideButtons);
       
-      pc.visNum = 7;
+      pc.visNum = 8;
      
     }
   };

@@ -7,35 +7,49 @@
   {
     "visual": "connect",
     "id": 1,
-    "prompt": "Trans-Disciplinary"
+    "prompt": "Honesty"
   },
 
   {
     "visual": "VizPerFull" ,
     "id": 2,
-    "prompt": "Post-Internet"
+    "prompt": "Facts"
   },
   {
     "visual": "VizPerStripe",
     "id": 3,
-    "prompt": "Agency"
+    "prompt": "Respect"
   },
 
   {
     "visual": "Grow",
     "id": 4,
-    "prompt": "Proliferation"
+    "prompt": "Responsibility"
   },
 
   {
     "visual": "Puddle",
     "id": 5,
-    "prompt": "Sacred"
+    "prompt": "Compassion"
   },
 
   {
     "visual": "Particle",
     "id": 6,
-    "prompt": "Now What?"
+    "prompt": "Authority"
+  },
+    
+ {
+    "visual": "Puddle",
+    "id": 5,
+    "prompt": "Lazy"
+  },
+    
+  {
+    "visual": "Puddle",
+    "id": 5,
+    "prompt": "Stick"
   }
+    
+    
 ]

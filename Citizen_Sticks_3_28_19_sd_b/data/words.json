@@ -1,0 +1,51 @@
+[
+  {
+    "visual": "BT",
+    "id": 0,
+    "prompt": "Blank"
+  },
+  {
+    "visual": "KKonnect",
+    "id": 1,
+    "prompt": "Trans-Disciplinary"
+  },
+
+  {
+    "visual": "VizPerFull" ,
+    "id": 2,
+    "prompt": "Post-Internet"
+  },
+  {
+    "visual": "VizPerStripe",
+    "id": 3,
+    "prompt": "Agency"
+  },
+
+  {
+    "visual": "Grow",
+    "id": 4,
+    "prompt": "Proliferation"
+  },
+
+  {
+    "visual": "Puddle",
+    "id": 5,
+    "prompt": "Sacred"
+  },
+
+  {
+    "visual": "Particle",
+    "id": 6,
+    "prompt": "Now What?"
+  },
+  {
+    "visual": "SmartParticle",
+    "id": 7,
+    "prompt": "Now BBB?"
+  },
+  {
+    "visual": "Buildr",
+    "id": 8,
+    "prompt": "draw"
+  }
+]
